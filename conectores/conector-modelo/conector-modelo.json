@@ -1,0 +1,126 @@
+{
+    "nome": "conector-modelo",
+    "titulo": "Conector Modelo",
+    "dependencias": {
+        "fonteSeguraImportacao": true,
+        "arquivos": [
+            {
+                "papel": "manifesto",
+                "origem": "conectores/conector-modelo/conector-modelo.json",
+                "destino": "conectores/conector-modelo/conector-modelo.json",
+                "obrigatorio": true
+            },
+            {
+                "papel": "formato",
+                "origem": "conectores/conector-modelo/formatos/formato-conector-modelo.json",
+                "destino": "conectores/conector-modelo/formatos/formato-conector-modelo.json",
+                "obrigatorio": true
+            },
+            {
+                "papel": "handler",
+                "origem": "conectores/conector-modelo/handlers/conector-modelo.php",
+                "destino": "conectores/conector-modelo/handlers/conector-modelo.php",
+                "obrigatorio": true
+            },
+            {
+                "papel": "catalogo-mensagens",
+                "origem": "web-api/catalogo-conector-modelo.json",
+                "destino": "web-api/catalogo-conector-modelo.json",
+                "obrigatorio": true
+            },
+            {
+                "papel": "manual-usuario",
+                "origem": "conectores/conector-modelo/manual-conector-modelo.html",
+                "destino": "conectores/conector-modelo/manual-conector-modelo.html",
+                "obrigatorio": true
+            }
+        ]
+    },
+    "descricao": "Conector modelo para desenvolvimento participativo. Processa a operacao eco lendo payload.dados e demonstra o contrato minimo exigido pelo SISC.",
+    "versao": "1.0.0",
+    "ativo": true,
+    "tipo": "conector",
+    "controlador": {
+        "executavel": "./escuta/runtime-conector",
+        "metodoLeitura": "ler-mensagem",
+        "metodoEnvio": "POST api.php",
+        "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+        "handlerLerMensagem": "./conectores/conector-modelo/handlers/conector-modelo.php"
+    },
+    "protocoloEscuta": "formatos-escuta/protocolo-mensagem-siscore.v1.json",
+    "formatoConector": "conectores/conector-modelo/formatos/formato-conector-modelo.json",
+    "api.php": {
+        "descricao": "Endpoint HTTP local para publicacao de mensagens. Nao usar pp --api no handler; chamar api.php diretamente via POST quando houver resposta.",
+        "url": "./api.php",
+        "metodo": "POST",
+        "autenticacao": {
+            "header": "Authorization: Bearer <token>",
+            "token": "token-externo/<cliente>.txt"
+        },
+        "body": {
+            "idmensagem": "string",
+            "dados": "object",
+            "origem": "conector__conector-modelo",
+            "processoId": "preservar do recebido",
+            "respostaA": "mensagemId original"
+        }
+    },
+    "mensagensEspaco": {
+        "regraCentral": "O conector le mensagens apenas pelo arquivo entregue pela escuta e publica saidas apenas via POST HTTP para api.php.",
+        "leitura": {
+            "metodo": "ler-mensagem",
+            "acionamentoPelaEscuta": "./escuta/runtime-conector ler-mensagem <arquivo-mensagem>",
+            "fonteDeVerdade": "Arquivo JSON da mensagem",
+            "camposObrigatorios": [
+                "_sistema",
+                "_protocolo",
+                "payload"
+            ]
+        },
+        "envio": {
+            "metodo": "POST api.php",
+            "publicacaoDiretaNoEspaco": false,
+            "preservarCorrelacao": [
+                "processoId",
+                "respostaA",
+                "escopo",
+                "idempotencia"
+            ]
+        }
+    },
+    "testeSandbox": {
+        "permitido": true,
+        "semEfeitoReal": true,
+        "mensagem": "testes/mensagem-exemplo.json",
+        "descricao": "A operacao eco e local, nao envia dados externos e nao altera estado real."
+    },
+    "servicoExterno": {
+        "nome": "modelo-local",
+        "descricao": "Servico demonstrativo sem credenciais reais. Substitua pelo servico externo do seu conector.",
+        "credenciais": {
+            "referencia": "secretos/conector-modelo.json",
+            "tipo": "arquivo-json-local-restrito-na-instalacao",
+            "permissaoRecomendada": "600"
+        }
+    },
+    "operacoes": {
+        "eco": {
+            "descricao": "Retorna no stdout uma confirmacao contendo o texto recebido.",
+            "entradaObrigatoria": [
+                "operacao",
+                "texto"
+            ],
+            "regras": [
+                "operacao deve ser eco",
+                "texto deve ser string nao vazia"
+            ]
+        }
+    },
+    "instrucoes": [
+        "Renomeie conector-modelo para conector-<servico> em todos os arquivos antes de submeter um conector real.",
+        "Mantenha o handler em conectores/<nome>/handlers/ e executavel com chmod +x.",
+        "Nao inclua segredos reais no pacote. Envie somente arquivos .sample.json quando necessario.",
+        "Nao escreva diretamente em espaco/. Use POST HTTP para api.php quando precisar publicar resposta."
+    ],
+    "manualUsuario": "conectores/conector-modelo/manual-conector-modelo.html"
+}

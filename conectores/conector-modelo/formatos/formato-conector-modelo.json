@@ -1,0 +1,51 @@
+{
+    "tipo": "formato-conector",
+    "nome": "formato-conector-modelo",
+    "versao": "1.0.0",
+    "conector": "conector-modelo",
+    "descricao": "Contrato de payload do conector modelo. Adaptar para o servico externo real mantendo entrada e saida documentadas.",
+    "entrada": {
+        "modelos": {
+            "comando-eco": {
+                "campos": {
+                    "operacao": {
+                        "tipo": "string",
+                        "obrigatorio": true,
+                        "valoresAceitos": ["eco"],
+                        "descricao": "Operacao a executar."
+                    },
+                    "texto": {
+                        "tipo": "string",
+                        "obrigatorio": true,
+                        "descricao": "Texto usado na operacao demonstrativa."
+                    }
+                },
+                "regras": [
+                    "operacao deve ser eco.",
+                    "texto deve ser uma string nao vazia."
+                ],
+                "exemplo": {
+                    "operacao": "eco",
+                    "texto": "mensagem de validacao local"
+                }
+            }
+        }
+    },
+    "saida": {
+        "modelos": {
+            "resultado": {
+                "campos": {
+                    "sucesso": {"tipo": "bool", "obrigatorio": true},
+                    "operacao": {"tipo": "string", "obrigatorio": true},
+                    "texto": {"tipo": "string", "obrigatorio": false},
+                    "erro": {"tipo": "object", "obrigatorio": false}
+                },
+                "exemplo": {
+                    "sucesso": true,
+                    "operacao": "eco",
+                    "texto": "mensagem de validacao local"
+                }
+            }
+        }
+    }
+}

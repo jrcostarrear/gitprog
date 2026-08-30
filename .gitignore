@@ -1,0 +1,7 @@
+dist/
+*.tar.gz
+*.tgz
+*.zip
+secretos/*.json
+!secretos/*.sample.json
+.DS_Store

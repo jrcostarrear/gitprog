@@ -1,0 +1,20 @@
+{
+    "_sistema": {
+        "nome": "siscore",
+        "versaoProtocolo": "1.0.0"
+    },
+    "_protocolo": {
+        "mensagemId": "teste-conector-modelo-0001",
+        "processoId": "processo-teste-local-0001",
+        "origem": "sistema__operador",
+        "destino": "conector__conector-modelo",
+        "criadoEm": "2026-08-24T00:00:00Z",
+        "idmensagem": "conector-modelo.eco"
+    },
+    "payload": {
+        "dados": {
+            "operacao": "eco",
+            "texto": "mensagem de validacao local"
+        }
+    }
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual de uso do conector-modelo</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:900px;margin:32px auto;padding:0 20px;line-height:1.55}code,pre{background:#f3f4f6;border-radius:6px}code{padding:2px 5px}pre{padding:14px;overflow:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px}th{background:#f8fafc}</style>
+</head>
+<body>
+<h1>Manual de uso do conector-modelo</h1>
+<p>Este HTML é o manual destinado aos programadores que irão consumir o conector depois que ele for instalado no SISC. Ao criar um conector real, substitua este conteúdo pelo manual específico do serviço integrado.</p>
+
+<h2>Identificação</h2>
+<ul>
+  <li><strong>Conector:</strong> <code>conector-modelo</code></li>
+  <li><strong>Destino SISC:</strong> <code>conector__conector-modelo</code></li>
+  <li><strong>Mensagem principal:</strong> <code>conector-modelo.eco</code></li>
+</ul>
+
+<h2>Operação disponível</h2>
+<table>
+<thead><tr><th>Operação</th><th>Descrição</th></tr></thead>
+<tbody><tr><td><code>eco</code></td><td>Retorna confirmação com o texto recebido. Serve como exemplo de contrato.</td></tr></tbody>
+</table>
+
+<h2>Payload esperado</h2>
+<pre><code>{
+  "operacao": "eco",
+  "texto": "mensagem de validacao local"
+}</code></pre>
+
+<h2>Exemplo de mensagem SISC</h2>
+<pre><code>{
+  "_protocolo": {
+    "origem": "sistema__operador",
+    "destino": "conector__conector-modelo",
+    "idmensagem": "conector-modelo.eco"
+  },
+  "payload": {
+    "dados": {
+      "operacao": "eco",
+      "texto": "mensagem de validacao local"
+    }
+  }
+}</code></pre>
+
+<h2>Credenciais</h2>
+<p>O conector-modelo não exige credenciais reais. Conectores reais devem informar aqui quais arquivos <code>secretos/*.json</code> o operador deve criar no servidor, sem expor senhas no pacote.</p>
+
+<h2>Erros comuns</h2>
+<ul>
+  <li><code>operacao invalida</code>: envie <code>operacao=eco</code>.</li>
+  <li><code>campo texto e obrigatorio</code>: envie <code>texto</code> como string não vazia.</li>
+</ul>
+</body>
+</html>

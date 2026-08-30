@@ -1,0 +1,51 @@
+{
+    "tipo": "catalogo-modulo-mensagens-sisc",
+    "versao": 1,
+    "nome": "catalogo-conector-modelo",
+    "modulo": "conector-modelo",
+    "destino": "conector__conector-modelo",
+    "descricao": "Mensagens do conector modelo para desenvolvimento participativo.",
+    "formatoEscuta": "formatos-escuta/protocolo-mensagem-siscore.v1.json",
+    "regraComunicacao": "somente-espaco-sisc-sem-acesso-direto",
+    "mensagens": [
+        {
+            "idmensagem": "conector-modelo.eco",
+            "publica": true,
+            "ativo": true,
+            "nome": "Executar eco no conector modelo",
+            "destino": "conector__conector-modelo",
+            "tipoMensagem": "comando",
+            "prioridade": "normal",
+            "origemPadrao": "sistema__operador",
+            "idempotenciaObrigatoria": true,
+            "correlacaoObrigatoria": true,
+            "descricao": "Mensagem demonstrativa para teste local do conector modelo.",
+            "entrada": {
+                "operacao": {"tipo": "string", "obrigatorio": true, "valoresAceitos": ["eco"]},
+                "texto": {"tipo": "string", "obrigatorio": true}
+            },
+            "front-api": [
+                {
+                    "ativo": false,
+                    "acao": "conector-modelo.eco",
+                    "descricao": "Exemplo de acao AJAX segura; manter inativa se nao houver interface publica.",
+                    "metodo": "POST",
+                    "csrf": true,
+                    "autenticacao": "sessao-ou-token",
+                    "modo": "executar",
+                    "entrada": {
+                        "texto": {"tipo": "string", "obrigatorio": true}
+                    },
+                    "dadosSisc": {
+                        "operacao": "eco",
+                        "texto": "$entrada.texto"
+                    },
+                    "resposta": {
+                        "tipo": "json",
+                        "atualizar": "conector-modelo"
+                    }
+                }
+            ]
+        }
+    ]
+}
