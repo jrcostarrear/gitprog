@@ -11,7 +11,7 @@ Este diretorio contem um modelo completo para programadores criarem conectores S
 - `conectores/conector-modelo/manual-conector-modelo.html`: manual HTML do exemplo para utilizadores do conector.
 - `web-api/catalogo-conector-modelo.json`: catalogo modular de mensagens do exemplo.
 - `testes/mensagem-exemplo.json`: mensagem SISC de teste.
-- Página de upload operacional: `/var/www/html/gitconectores/upload.php`, enviando para `/var/www/html/gitconectores/gitconectoresrecebidos`.
+- Página de upload comunitária: `https://costarrear.com/gitconectores/upload.php`.
 
 ## Handler pode ser em qualquer linguagem
 

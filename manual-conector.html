@@ -616,7 +616,7 @@ CORREÇÃO: coloque os dados de negócio dentro de payload.dados</code></pre>
 
       <h3>O que acontece no servidor depois do envio</h3>
       <p><b>Depois que o pacote chega ao operador SISC:</b></p>
-      <pre><code>cd /var/www/html/gitconectores
+      <pre><code># no servidor operacional do projeto (não no computador do programador):
 ./validar-recebidos       # gera &lt;pacote&gt;.selo-validacao.json
 ./testar-sandbox          # instala no testesis, faz dryRun + execução segura
 ./instalar-aprovados      # só instala no siscore real se os dois selos conferirem</code></pre>
@@ -667,7 +667,9 @@ tar -xzf /caminho/para/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
       <p>Esse teste evita o clássico problema: “na minha pasta funcionava, mas o arquivo enviado ficou incompleto”.</p>
 
       <h3>Envio pelo canal comunitário</h3>
-      <p><b>Na página/canal de envio do projeto, informe:</b></p>
+      <p><b>Envie o pacote validado na página oficial de upload:</b></p>
+      <pre><code>https://costarrear.com/gitconectores/upload.php</code></pre>
+      <p><b>Na página, informe:</b></p>
       <pre><code>nome do conector: conector-&lt;seu-servico&gt;
 versão: 1.0.0
 arquivo: dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
