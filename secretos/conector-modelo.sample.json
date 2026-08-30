@@ -1,0 +1,9 @@
+{
+    "ativo": false,
+    "descricao": "Exemplo de configuracao local. Copie para secretos/conector-modelo.json apenas na instalacao real e nunca envie segredos ao GitHub ou ao pacote.",
+    "servico": {
+        "url": "https://api.servico.example.invalid",
+        "timeoutSegundos": 30,
+        "tokenRef": "preencher-no-servidor-real"
+    }
+}
