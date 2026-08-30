@@ -1,17 +1,21 @@
 {
     "_sistema": {
-        "nome": "siscore",
-        "versaoProtocolo": "1.0.0"
+        "transporte": "pp --api",
+        "criadoPor": "sistema__operador"
     },
     "_protocolo": {
-        "mensagemId": "teste-conector-modelo-0001",
-        "processoId": "processo-teste-local-0001",
+        "nome": "siscore-protocolo-objetos",
+        "versao": 1,
+        "processoId": "proc-conector-modelo-0001",
+        "mensagemId": "msg-conector-modelo-0001",
         "origem": "sistema__operador",
         "destino": "conector__conector-modelo",
-        "criadoEm": "2026-08-24T00:00:00Z",
-        "idmensagem": "conector-modelo.eco"
+        "tipo": "comando",
+        "prioridade": "normal",
+        "criadoEm": "2026-08-24T00:00:00Z"
     },
     "payload": {
+        "idmensagem": "conector-modelo.eco",
         "dados": {
             "operacao": "eco",
             "texto": "mensagem de validacao local"

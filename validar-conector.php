@@ -235,6 +235,17 @@ if ($teste) {
     $dest = $teste['_protocolo']['destino'] ?? '';
     if ($nome && $dest !== "conector__$nome") addErro("Mensagem de teste _protocolo.destino deve ser conector__$nome.");
     if (!isset($teste['payload']['dados']) || !is_array($teste['payload']['dados'])) addErro('Mensagem de teste deve conter payload.dados como objeto.');
+
+    $proto = is_array($teste['_protocolo'] ?? null) ? $teste['_protocolo'] : [];
+    if (($proto['nome'] ?? null) !== 'siscore-protocolo-objetos') addErro('Mensagem de teste: _protocolo.nome deve ser "siscore-protocolo-objetos".');
+    if (($proto['versao'] ?? null) !== 1) addErro('Mensagem de teste: _protocolo.versao deve ser 1.');
+    $tiposValidos = ['solicitacao', 'resposta', 'evento', 'erro', 'comando', 'consulta'];
+    if (!in_array($proto['tipo'] ?? null, $tiposValidos, true)) addErro('Mensagem de teste: _protocolo.tipo invalido.');
+    $prio = $proto['prioridade'] ?? null;
+    if ($prio !== null && $prio !== '' && !in_array($prio, ['baixa', 'normal', 'alta', 'critica'], true)) addErro('Mensagem de teste: _protocolo.prioridade invalida.');
+    $idm = $teste['payload']['idmensagem'] ?? null;
+    if (!is_string($idm) || $idm === '') addErro('Mensagem de teste: payload.idmensagem deve ser informado.');
+
     if (temPlaceholder($teste)) addErro('Mensagem de teste contem placeholders; preencha com valores de teste seguros.');
     addOk('Mensagem de teste validada: testes/mensagem-exemplo.json');
 }

@@ -390,16 +390,20 @@ sys.exit(0)</code></pre>
       <h3>Modelo seguro de teste</h3>
       <p><b>No arquivo real, este tópico aparece assim:</b></p>
       <pre><code>{
-  "_sistema": {"nome": "ambiente-de-teste", "versaoProtocolo": "1.0.0"},
+  "_sistema": {"transporte": "pp --api"},
   "_protocolo": {
-    "mensagemId": "teste-conector-&lt;seu-servico&gt;-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-&lt;seu-servico&gt;-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-&lt;seu-servico&gt;",
-    "criadoEm": "2026-08-24T00:00:00Z",
-    "idmensagem": "conector-&lt;seu-servico&gt;.executar"
+    "tipo": "comando",
+    "prioridade": "normal",
+    "criadoEm": "2026-08-24T00:00:00Z"
   },
   "payload": {
+    "idmensagem": "conector-&lt;seu-servico&gt;.executar",
     "dados": {
       "acao": "executar",
       "identificador": "ABC-123"
@@ -837,13 +841,17 @@ responder([
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
   "_protocolo": {
-    "mensagemId": "teste-conector-clima-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-clima-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-clima",
-    "idmensagem": "conector-clima.executar"
+    "tipo": "comando",
+    "prioridade": "normal"
   },
   "payload": {
+    "idmensagem": "conector-clima.executar",
     "dados": {
       "acao": "consultar_previsao",
       "cidade": "São Paulo",
@@ -1031,13 +1039,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
   "_protocolo": {
-    "mensagemId": "teste-conector-crm-leads-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-crm-leads-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-crm-leads",
-    "idmensagem": "conector-crm-leads.executar"
+    "tipo": "comando",
+    "prioridade": "normal"
   },
   "payload": {
+    "idmensagem": "conector-crm-leads.executar",
     "dados": {
       "acao": "criar_lead",
       "nome": "Maria Cliente",
@@ -1226,13 +1238,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
   "_protocolo": {
-    "mensagemId": "teste-conector-pagamentos-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-pagamentos-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-pagamentos",
-    "idmensagem": "conector-pagamentos.executar"
+    "tipo": "comando",
+    "prioridade": "normal"
   },
   "payload": {
+    "idmensagem": "conector-pagamentos.executar",
     "dados": {
       "acao": "criar_cobranca",
       "valor": 149.90,
@@ -1420,13 +1436,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
   "_protocolo": {
-    "mensagemId": "teste-conector-estoque-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-estoque-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-estoque",
-    "idmensagem": "conector-estoque.executar"
+    "tipo": "comando",
+    "prioridade": "normal"
   },
   "payload": {
+    "idmensagem": "conector-estoque.executar",
     "dados": {
       "acao": "ajustar_saldo",
       "sku": "CAMISETA-AZUL-M",
@@ -1615,13 +1635,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
   "_protocolo": {
-    "mensagemId": "teste-conector-documentos-ocr-0001",
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
     "processoId": "processo-teste-local-0001",
+    "mensagemId": "teste-conector-documentos-ocr-0001",
     "origem": "sistema__operador",
     "destino": "conector__conector-documentos-ocr",
-    "idmensagem": "conector-documentos-ocr.executar"
+    "tipo": "comando",
+    "prioridade": "normal"
   },
   "payload": {
+    "idmensagem": "conector-documentos-ocr.executar",
     "dados": {
       "acao": "extrair_texto",
       "arquivo": "uploads/seguros/doc-123.pdf",
