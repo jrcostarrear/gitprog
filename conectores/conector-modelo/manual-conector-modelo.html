@@ -1,29 +1,52 @@
+<!--- #infoarq:manual de uso deste conector modelo com padrão completo de qualidade -->
 <!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manual de uso do conector-modelo</title>
-  <style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:900px;margin:32px auto;padding:0 20px;line-height:1.55}code,pre{background:#f3f4f6;border-radius:6px}code{padding:2px 5px}pre{padding:14px;overflow:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px}th{background:#f8fafc}</style>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:980px;margin:32px auto;padding:0 20px;line-height:1.55;color:#111827}
+    code,pre{background:#f3f4f6;border-radius:6px}code{padding:2px 5px}pre{padding:14px;overflow:auto}
+    table{border-collapse:collapse;width:100%;margin:12px 0}td,th{border:1px solid #d1d5db;padding:8px;vertical-align:top}th{background:#f9fafb}
+    .aviso{background:#fff7ed;border:1px solid #fed7aa;padding:12px;border-radius:8px}.ok{background:#ecfdf5;border:1px solid #bbf7d0;padding:12px;border-radius:8px}
+  </style>
 </head>
 <body>
 <h1>Manual de uso do conector-modelo</h1>
-<p>Este HTML é o manual destinado aos programadores que irão consumir o conector depois que ele for instalado no SISC. Ao criar um conector real, substitua este conteúdo pelo manual específico do serviço integrado.</p>
+<p>Este manual é destinado aos programadores que irão consumir o <code>conector-modelo</code> pelo catálogo de mensagens do SISC. Ele também serve como padrão de qualidade para novos manuais: documente o que o conector faz, quais mensagens ele aceita, quais campos entram em <code>payload.dados</code>, como interpretar a saída e quais cuidados o consumidor deve tomar.</p>
 
 <h2>Identificação</h2>
 <ul>
   <li><strong>Conector:</strong> <code>conector-modelo</code></li>
   <li><strong>Destino SISC:</strong> <code>conector__conector-modelo</code></li>
-  <li><strong>Mensagem principal:</strong> <code>conector-modelo.eco</code></li>
+  <li><strong>catalogo modular:</strong> <code>web-api/catalogo-conector-modelo.json</code></li>
+  <li><strong>idmensagem principal:</strong> <code>conector-modelo.eco</code></li>
+  <li><strong>Formato de dados:</strong> <code>conectores/conector-modelo/formatos/formato-conector-modelo.json</code></li>
 </ul>
 
-<h2>Operação disponível</h2>
+<h2>Objetivo</h2>
+<p>Demonstrar um conector simples e previsível. A mensagem <code>conector-modelo.eco</code> recebe um texto, valida os campos de entrada e devolve uma confirmação com o texto recebido. Conectores reais devem substituir esta operação demonstrativa pelo serviço integrado, mantendo a documentação focada na mensagem do catalogo, nos campos do payload e na resposta esperada.</p>
+
+<h2>Operações disponíveis</h2>
 <table>
-<thead><tr><th>Operação</th><th>Descrição</th></tr></thead>
-<tbody><tr><td><code>eco</code></td><td>Retorna confirmação com o texto recebido. Serve como exemplo de contrato.</td></tr></tbody>
+<thead><tr><th>Operação</th><th>idmensagem</th><th>Campos principais</th><th>Descrição</th></tr></thead>
+<tbody>
+<tr><td>Eco</td><td><code>conector-modelo.eco</code></td><td><code>operacao</code>, <code>texto</code></td><td>Retorna confirmação com o texto recebido. É uma operação sem efeito externo.</td></tr>
+</tbody>
 </table>
 
-<h2>Payload esperado</h2>
+<h2>Payload de entrada</h2>
+<p>Os dados de negócio devem ser enviados em <code>payload.dados</code>. O consumidor não precisa conhecer a implementação interna do conector; basta usar o <code>idmensagem</code> publicado no catalogo e preencher os campos abaixo.</p>
+<table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th><th>Descrição</th></tr></thead>
+<tbody>
+<tr><td><code>operacao</code></td><td>string</td><td>sim</td><td>Deve ser <code>eco</code>.</td></tr>
+<tr><td><code>texto</code></td><td>string</td><td>sim</td><td>Texto não vazio que será devolvido ao consumidor.</td></tr>
+</tbody>
+</table>
+
+<h2>Exemplo de payload simples</h2>
 <pre><code>{
   "operacao": "eco",
   "texto": "mensagem de validacao local"
@@ -44,13 +67,91 @@
   }
 }</code></pre>
 
-<h2>Credenciais</h2>
-<p>O conector-modelo não exige credenciais reais. Conectores reais devem informar aqui quais arquivos <code>secretos/*.json</code> o operador deve criar no servidor, sem expor senhas no pacote.</p>
+<h2>Exemplo de envelope completo para teste controlado</h2>
+<pre><code>{
+  "_sistema": {
+    "criadoPor": "sistema__operador"
+  },
+  "_protocolo": {
+    "nome": "siscore-protocolo-objetos",
+    "versao": 1,
+    "processoId": "proc-conector-modelo-0001",
+    "mensagemId": "msg-conector-modelo-0001",
+    "origem": "sistema__operador",
+    "destino": "conector__conector-modelo",
+    "tipo": "comando",
+    "prioridade": "normal",
+    "idempotencia": {
+      "chave": "modelo-eco-001",
+      "escopo": "conector-modelo.eco"
+    }
+  },
+  "payload": {
+    "idmensagem": "conector-modelo.eco",
+    "dados": {
+      "operacao": "eco",
+      "texto": "mensagem de validacao local"
+    }
+  }
+}</code></pre>
+
+<h2>Saída esperada</h2>
+<p>A resposta de sucesso informa se a operação foi aceita, qual conector processou a mensagem, a operação executada e o texto normalizado. Consumidores devem tratar campos extras como extensões compatíveis.</p>
+<pre><code>{
+  "sucesso": true,
+  "conector": "conector-modelo",
+  "operacao": "eco",
+  "texto": "mensagem de validacao local",
+  "mensagemId": "msg-conector-modelo-0001",
+  "processoId": "proc-conector-modelo-0001"
+}</code></pre>
+
+<h2>Programa de exemplo</h2>
+<p>O pacote traz um programa PHP de exemplo em <code>conectores/conector-modelo/exemplos/exemplo-uso.php</code>. Ele demonstra como um consumidor monta a mensagem do catalogo e o objeto <code>payload.dados</code> para a operação <code>eco</code>.</p>
+<pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php</code></pre>
+<p>O mesmo programa possui modo de autoverificação, usado para comprovar que o exemplo produz o JSON que declara produzir.</p>
+<pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php --self-test</code></pre>
+
+<h2>Credenciais necessárias</h2>
+<div class="ok"><strong>Este conector não usa credenciais reais.</strong> O arquivo de exemplo <code>secretos/conector-modelo.sample.json</code> existe apenas para documentar a decisão.</div>
+<p>Em conectores reais, esta seção deve dizer exatamente quais credenciais o operador do ambiente precisa configurar, sem expor valores reais. O manual deve conter nomes de campos e finalidade, nunca senhas, tokens, chaves privadas ou certificados privados.</p>
 
 <h2>Erros comuns</h2>
+<table>
+<thead><tr><th>Erro</th><th>Causa provável</th><th>Ação recomendada</th></tr></thead>
+<tbody>
+<tr><td><code>operacao invalida</code></td><td><code>payload.dados.operacao</code> não é <code>eco</code>.</td><td>Enviar <code>operacao=eco</code>.</td></tr>
+<tr><td><code>campo texto e obrigatorio</code></td><td>Campo <code>texto</code> ausente, vazio ou de tipo incorreto.</td><td>Enviar <code>texto</code> como string não vazia.</td></tr>
+<tr><td><code>payload.dados ausente</code></td><td>A mensagem não colocou os dados no local esperado.</td><td>Montar a mensagem com o objeto <code>payload.dados</code>.</td></tr>
+<tr><td><code>idmensagem desconhecido</code></td><td>O consumidor usou nome de mensagem diferente do declarado no catalogo.</td><td>Usar <code>conector-modelo.eco</code> ou consultar a versão atual do catalogo.</td></tr>
+</tbody>
+</table>
+
+<h2>Limites</h2>
+<table>
+<thead><tr><th>Item</th><th>Limite ou regra</th></tr></thead>
+<tbody>
+<tr><td>Tamanho do texto</td><td>Deve ser pequeno o suficiente para trafegar como payload textual comum do SISC.</td></tr>
+<tr><td>Efeito externo</td><td>Nenhum. Este conector é demonstrativo.</td></tr>
+<tr><td>Compatibilidade</td><td>Novos campos de saída devem ser opcionais para consumidores antigos.</td></tr>
+</tbody>
+</table>
+
+<h2>Segurança de uso</h2>
+<div class="aviso"><strong>Não envie segredos no payload.</strong> Mesmo quando um conector real exigir credenciais, elas pertencem à configuração do ambiente, não à mensagem de negócio.</div>
 <ul>
-  <li><code>operacao invalida</code>: envie <code>operacao=eco</code>.</li>
-  <li><code>campo texto e obrigatorio</code>: envie <code>texto</code> como string não vazia.</li>
+  <li>Use <code>idempotencia</code> estável para evitar repetição acidental de operações públicas.</li>
+  <li>Use apenas o <code>idmensagem</code> declarado no catalogo do conector.</li>
+  <li>Não dependa de nomes de arquivos, scripts ou detalhes internos do servidor para consumir a integração.</li>
+  <li>Registre no seu sistema consumidor o <code>processoId</code> e o <code>mensagemId</code> quando precisar auditar uma chamada.</li>
+</ul>
+
+<h2>Boas práticas para consumidores</h2>
+<ul>
+  <li>Validar campos obrigatórios antes de publicar a mensagem.</li>
+  <li>Tratar resposta de erro de forma explícita, sem assumir sucesso.</li>
+  <li>Ignorar campos desconhecidos de saída para manter compatibilidade futura.</li>
+  <li>Consultar este manual e o catalogo modular sempre que o conector mudar de versão.</li>
 </ul>
 </body>
 </html>

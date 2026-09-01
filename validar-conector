@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-exec php "$DIR/validar-conector.php" "$@"
+exec php -n "$DIR/validar-conector.php" "$@"

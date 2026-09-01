@@ -1,3 +1,4 @@
+<!--- #infoarq:ajuda a programadores externos sobre a construção de conectores -->
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -339,18 +340,41 @@ sys.exit(0)</code></pre>
     <article id="manualUsuario" class="doc">
       <span class="path">manual-do-conector.html</span>
       <h2>Manual do seu conector</h2>
-      <p class="muted">Cada conector deve ter seu próprio manual para quem vai consumi-lo depois de instalado.</p>
-      <h3>Estrutura recomendada</h3>
-      <p><b>No HTML real, inclua no mínimo:</b></p>
-      <pre><code>&lt;h1&gt;Manual do conector-&lt;seu-servico&gt;&lt;/h1&gt;
-&lt;h2&gt;Objetivo&lt;/h2&gt;
-&lt;h2&gt;Operações disponíveis&lt;/h2&gt;
-&lt;h2&gt;Payload de entrada&lt;/h2&gt;
-&lt;h2&gt;Exemplos completos&lt;/h2&gt;
+      <p class="muted">Cada conector deve ter seu próprio manual para quem vai consumi-lo depois de instalado. Escreva como programador do conector: o leitor precisa conhecer somente o conector, o destino SISC, o <code>idmensagem</code> no catalogo e o contrato de <code>payload.dados</code>.</p>
+      <div class="callout warn"><b>Não documente bastidor do servidor:</b> o manual do conector não deve citar scripts operacionais, comandos internos de aprovação, caminhos administrativos ou detalhes de instalação do servidor. Essas informações pertencem ao operador SISC, não ao consumidor do conector.</div>
+      <h3>Padrão mínimo de qualidade</h3>
+      <p><b>No HTML real, inclua seções equivalentes a estas:</b></p>
+      <pre><code>&lt;h1&gt;Manual de uso do conector-&lt;seu-servico&gt;&lt;/h1&gt;
+&lt;h2&gt;Identificação&lt;/h2&gt;              &lt;!-- conector, destino SISC, catalogo, idmensagem --&gt;
+&lt;h2&gt;Objetivo&lt;/h2&gt;                   &lt;!-- o que a integração entrega ao consumidor --&gt;
+&lt;h2&gt;Operações disponíveis&lt;/h2&gt;      &lt;!-- tabela: operação, idmensagem, campos, descrição --&gt;
+&lt;h2&gt;Payload de entrada&lt;/h2&gt;         &lt;!-- tabela: campo, tipo, obrigatoriedade, descrição --&gt;
+&lt;h2&gt;Exemplo de payload&lt;/h2&gt;
+&lt;h2&gt;Exemplo de mensagem SISC&lt;/h2&gt;
 &lt;h2&gt;Saída esperada&lt;/h2&gt;
-&lt;h2&gt;Credenciais necessárias&lt;/h2&gt;
-&lt;h2&gt;Erros comuns&lt;/h2&gt;</code></pre>
-      <div class="callout ok"><b>Regra de qualidade:</b> escreva para outro programador entender sem precisar perguntar no chat.</div>
+&lt;h2&gt;Programa de exemplo&lt;/h2&gt;        &lt;!-- caminho, o que demonstra e saída do --self-test --&gt;
+&lt;h2&gt;Credenciais necessárias&lt;/h2&gt;    &lt;!-- sem segredo real; diga o que o ambiente precisa --&gt;
+&lt;h2&gt;Erros comuns&lt;/h2&gt;               &lt;!-- tabela: erro, causa provável, ação --&gt;
+&lt;h2&gt;Limites&lt;/h2&gt;                    &lt;!-- timeout, precisão, rate limit, compatibilidade --&gt;
+&lt;h2&gt;Segurança de uso&lt;/h2&gt;           &lt;!-- cuidado com dados sensíveis e idempotencia --&gt;
+&lt;h2&gt;Boas práticas para consumidores&lt;/h2&gt;</code></pre>
+      <h3>Critérios que o validador cobra</h3>
+      <ul>
+        <li>HTML completo com <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code> e CSS próprio de leitura.</li>
+        <li>Conteúdo substancial, no padrão do <code>manual-conector-email.html</code>: não basta uma página curta.</li>
+        <li>Ao menos duas tabelas: uma para operações/campos e outra para erros, limites ou contrato.</li>
+        <li>Ao menos três blocos de exemplo em <code>&lt;pre&gt;&lt;code&gt;</code>.</li>
+        <li>Identificação explícita de <code>conector-&lt;nome&gt;</code>, <code>conector__conector-&lt;nome&gt;</code>, <code>catalogo</code> e <code>idmensagem</code>.</li>
+        <li>Explicação de <code>payload.dados</code>, saída esperada, credenciais, erros comuns, limites, segurança de uso e <code>idempotencia</code>.</li>
+        <li>Programa de exemplo em <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php</code>, documentado no manual, demonstrando uma chamada realista do recurso do conector.</li>
+        <li>Nenhum token, senha, chave real, caminho administrativo ou instrução que dependa de detalhes internos do servidor.</li>
+      </ul>
+      <h3>Programa de exemplo obrigatório</h3>
+      <p>Além do manual, entregue um programa PHP em <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php</code>. Ele deve montar a mensagem ou o payload com o <code>idmensagem</code> do catalogo e os campos reais de <code>payload.dados</code>.</p>
+      <pre><code>php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php
+php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php --self-test</code></pre>
+      <p>O modo <code>--self-test</code> deve imprimir JSON válido com <code>sucesso:true</code>, <code>conector</code>, <code>idmensagem</code>, <code>payload.dados</code> e <code>saidaEsperada</code>. O validador executa esse modo e confere se o exemplo produz o que declarou produzir.</p>
+      <div class="callout ok"><b>Como o programador sabe se está bom:</b> copie o nível de detalhamento do <code>conectores/conector-modelo/manual-conector-modelo.html</code>, adapte para seu serviço e rode <code>./validar-conector</code>. O validador reprova manual raso, genérico, sem exemplo validável ou com bastidor interno do servidor.</div>
     </article>
 
     <article id="catalogo" class="doc">
@@ -437,8 +461,10 @@ sys.exit(0)</code></pre>
       <h2>Contrato obrigatório do handler</h2>
       <h3>Checklist executável</h3>
       <p><b>No pacote real, seu handler deve cumprir:</b></p>
-      <pre><code>[x] estar dentro da pasta de handlers do conector
+      <pre><code>[x] estar dentro de conectores/&lt;nome&gt;/handlers/
+[x] usar caminho relativo seguro, sem / inicial, .., ., // ou barra invertida
 [x] ser executável diretamente
+[x] se for script, ter shebang na primeira linha
 [x] receber exatamente 1 argumento: o caminho do JSON
 [x] ler _protocolo e payload.dados do arquivo recebido
 [x] validar campos antes de chamar serviço externo
@@ -446,7 +472,7 @@ sys.exit(0)</code></pre>
 [x] sair com código diferente de 0 em erro
 [x] nunca manipular áreas internas do sistema diretamente
 [x] publicar respostas apenas pelo canal oficial do ambiente</code></pre>
-      <div class="callout danger"><b>Não faça:</b> não dependa de caminho absoluto da sua máquina, não execute shell com entrada do usuário sem sanitização e não use arquivos internos da instalação como API.</div>
+      <div class="callout danger"><b>Não faça:</b> não dependa de caminho absoluto da sua máquina, não use <code>../</code>, não execute shell com entrada do usuário e não use arquivos internos da instalação como API. O runtime novo só executa handlers em <code>conectores/&lt;nome&gt;/handlers/</code> e o sandbox só expõe o segredo do próprio conector.</div>
     </article>
 
     <article id="linguagens" class="doc">
@@ -499,7 +525,10 @@ chmod +x conectores/conector-&lt;seu-servico&gt;/handlers/&lt;handler.py&gt;
       <pre><code>[ ] senha real no pacote
 [ ] token real no pacote
 [ ] chave privada no pacote
+[ ] link simbólico no pacote
 [ ] caminho absoluto da sua máquina
+[ ] caminho com .., ., // ou barra invertida
+[ ] dependência instalável fora de conectores/&lt;nome&gt;/ ou web-api/
 [ ] escrita direta em área interna do sistema
 [ ] comando shell com entrada não sanitizada
 [ ] log imprimindo Authorization, senha ou token
@@ -620,7 +649,7 @@ CORREÇÃO: coloque os dados de negócio dentro de payload.dados</code></pre>
 ./validar-recebidos       # gera &lt;pacote&gt;.selo-validacao.json
 ./testar-sandbox          # instala no testesis, faz dryRun + execução segura
 ./instalar-aprovados      # só instala no siscore real se os dois selos conferirem</code></pre>
-      <p>Os selos são assinados pelo servidor e presos ao <code>sha256</code> do pacote. Se o pacote for alterado depois, os selos deixam de valer.</p>
+      <p>Os selos são assinados pelo servidor e presos ao <code>sha256</code> do pacote. Se o pacote for alterado depois, os selos deixam de valer. O servidor também bloqueia o selo-sandbox se <code>SISC_SANDBOX_DESATIVADO</code> estiver definido ou se o <code>testesis</code> não estiver com <code>runtime-conector</code> e <code>sandbox-handler</code> atualizados.</p>
 
       <h3>Comando recomendado para gerar pacote</h3>
       <p><b>No terminal, a partir da raiz do pacote:</b></p>
@@ -653,7 +682,7 @@ dist/conector-&lt;seu-servico&gt;-1.0.0.zip</code></pre>
 [ ] não existe senha, token, certificado privado ou arquivo .env real
 [ ] arquivos de exemplo usam placeholders seguros
 [ ] README/manual explicam objetivo, payload, saída, erros e credenciais
-[ ] testeSandbox está declarado quando a execução automática for segura
+[ ] testeSandbox está declarado com permitido=true, semEfeitoReal=true e descrição clara
 [ ] testes/mensagem-exemplo.json não causa cobrança, envio real ou alteração irreversível
 [ ] versão do manifesto bate com o nome do pacote
 [ ] pacote abre em uma pasta temporária sem erro</code></pre>

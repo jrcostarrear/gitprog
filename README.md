@@ -11,6 +11,7 @@ Este diretorio contem um modelo completo para programadores criarem conectores S
 - `conectores/conector-modelo/manual-conector-modelo.html`: manual HTML do exemplo para utilizadores do conector.
 - `web-api/catalogo-conector-modelo.json`: catalogo modular de mensagens do exemplo.
 - `testes/mensagem-exemplo.json`: mensagem SISC de teste.
+- `conectores/conector-modelo/exemplos/exemplo-uso.php`: programa PHP de exemplo que demonstra o uso do conector e possui `--self-test` validável.
 - Página de upload comunitária: `https://costarrear.com/gitconectores/upload.php`.
 
 ## Handler pode ser em qualquer linguagem
@@ -34,7 +35,9 @@ O SISC usa o caminho declarado no manifesto:
 Regras obrigatorias para qualquer linguagem:
 
 - o arquivo deve ficar em `conectores/<nome>/handlers/`;
+- o caminho declarado deve ser relativo seguro, sem `/` inicial, `..`, componente `.`, `//` ou barra invertida;
 - deve estar executavel com `chmod +x`;
+- scripts devem ter shebang na primeira linha (`#!/usr/bin/env ...`) para funcionar por execucao direta;
 - deve receber o caminho da mensagem JSON como primeiro argumento;
 - deve ler `_protocolo` e `payload.dados` do JSON recebido;
 - deve retornar codigo `0` em sucesso e diferente de `0` em erro;
@@ -190,16 +193,41 @@ E tambem deve listar o arquivo em `dependencias.arquivos`:
 }
 ```
 
-Conteudo minimo esperado no HTML:
+Qualidade esperada no HTML:
 
-- objetivo do conector;
-- destino SISC, por exemplo `conector__conector-email`;
-- ids de mensagem e operacoes;
-- payloads de entrada com exemplos;
-- formato de saida/resposta;
-- credenciais necessarias sem valores reais;
-- erros comuns, timeouts e limites;
-- exemplos de uso por outros programadores.
+- escreva como programador do conector para outro programador que vai consumir a mensagem do catalogo;
+- nao cite bastidores do servidor, scripts operacionais, comandos internos de aprovacao ou caminhos administrativos;
+- identifique conector, destino SISC, catalogo modular, `idmensagem` e formato de dados;
+- explique objetivo do conector em linguagem de consumo, nao de instalacao;
+- inclua tabela de operacoes com operacao, `idmensagem`, campos principais e descricao;
+- inclua tabela de `payload.dados` com campo, tipo, obrigatoriedade e descricao;
+- inclua exemplos completos: payload simples, mensagem SISC e saida esperada;
+- documente credenciais necessarias sem valores reais, inclusive quando nenhuma credencial for exigida;
+- inclua tabela de erros comuns com causa provavel e acao recomendada;
+- explique limites, timeouts, precisao, rate limit ou efeitos externos;
+- explique seguranca de uso, dados sensiveis e idempotencia;
+- inclua boas praticas para consumidores;
+- documente o programa de exemplo fornecido no pacote e o que ele demonstra.
+
+O modelo de qualidade fica em `conectores/conector-modelo/manual-conector-modelo.html`. Antes de empacotar, rode `./validar-conector`; ele reprova manual raso, generico, sem exemplos/tabelas ou que cite detalhes internos do servidor em vez de documentar o conector.
+
+## Programa de exemplo obrigatorio
+
+O programador deve entregar um programa de exemplo que use os recursos do seu conector. O caminho esperado é:
+
+```text
+conectores/conector-nome/exemplos/exemplo-uso.php
+```
+
+O exemplo deve:
+
+- ser PHP válido;
+- montar uma mensagem ou payload realista usando o `idmensagem` do catalogo;
+- demonstrar `payload.dados` com os campos reais do conector;
+- explicar pelo próprio código o que a chamada produz;
+- ter modo `--self-test` que imprime JSON válido com `sucesso:true`, `conector`, `idmensagem`, `payload.dados` e `saidaEsperada`.
+
+O `./validar-conector` executa `php -l` e `php conectores/<nome>/exemplos/exemplo-uso.php --self-test`. Se o programa não produzir o JSON prometido ou usar `idmensagem` fora do catalogo, o pacote é reprovado.
 
 ## Credenciais, senhas e tokens
 
@@ -283,7 +311,9 @@ Para o servidor poder executar o pacote em `testesis` antes de integrar ao SISC 
 }
 ```
 
-Sem essa declaracao, o pacote pode passar na validacao local, mas nao recebera o selo de sandbox automatico.
+Sem essa declaracao, o validador local agora reprova o pacote, porque o servidor nao emitira `selo-sandbox` e o `siscore` real recusara a instalacao sem os dois selos.
+
+O servidor tambem faz preflight antes de emitir `selo-sandbox`: se `SISC_SANDBOX_DESATIVADO` estiver definido, ou se `testesis/escuta/sandbox-handler`/`runtime-conector` nao estiverem com o sandbox novo, o teste e bloqueado e nenhum selo e emitido.
 
 ## Empacotamento sugerido apos aprovacao
 
@@ -291,4 +321,4 @@ Sem essa declaracao, o pacote pode passar na validacao local, mas nao recebera o
 tar --exclude='./dist' --exclude='.git' -czf dist/conector-nome.tar.gz .
 ```
 
-Envie somente pacotes aprovados pelo `./validar-conector`.
+Envie somente pacotes aprovados pelo `./validar-conector`. O validador local rejeita links simbolicos, caminhos inseguros, handler fora de `conectores/<nome>/handlers/`, handler sem execucao direta, dependencias instalaveis fora de `conectores/<nome>/` ou `web-api/`, segredos reais e `testeSandbox` ausente/invalido.

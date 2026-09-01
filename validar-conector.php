@@ -28,10 +28,22 @@ function lerJson(string $arquivo): ?array {
 }
 
 function seguroRel(string $p): bool {
-    if ($p === '' || str_starts_with($p, '/') || str_contains($p, "\0")) return false;
-    $partes = preg_split('#[\\/]+#', $p) ?: [];
-    foreach ($partes as $parte) if ($parte === '..') return false;
+    if ($p === '' || str_starts_with($p, '/') || str_contains($p, "\0") || str_contains($p, '\\')) return false;
+    $partes = explode('/', $p);
+    foreach ($partes as $parte) {
+        if ($parte === '' || $parte === '.' || $parte === '..') return false;
+        if (preg_match('/[\x00-\x1F]/', $parte) === 1) return false;
+    }
     return true;
+}
+
+function limparRelDeclarado(string $p): string {
+    while (str_starts_with($p, './')) $p = substr($p, 2);
+    return $p;
+}
+
+function nomeConectorValido(string $nome): bool {
+    return preg_match('/^conector-[a-z0-9][a-z0-9-]*$/', $nome) === 1;
 }
 
 function temPlaceholder(mixed $v): bool {
@@ -49,12 +61,85 @@ function listarArquivos(string $dir): array {
     return $out;
 }
 
+function validarEntradasSemLinks(string $baseReal): void {
+    $it = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($baseReal, FilesystemIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::SELF_FIRST
+    );
+    foreach ($it as $f) {
+        $path = $f->getPathname();
+        $r = rel($baseReal, $path);
+        if ($f->isLink()) addErro("Link simbolico proibido no pacote: $r");
+        elseif (!$f->isDir() && !$f->isFile()) addErro("Entrada nao regular proibida no pacote: $r");
+    }
+}
+
 function normalizarNome(string $nome): string {
     $nome = strtolower(trim($nome));
     $nome = preg_replace('/[^a-z0-9_-]+/', '-', $nome) ?? $nome;
     $nome = trim($nome, '-_');
     if (!str_starts_with($nome, 'conector-')) $nome = 'conector-' . $nome;
     return $nome;
+}
+
+function validarExemploUso(string $baseReal, string $nome, string $catalogoTexto): void {
+    $rel = "conectores/$nome/exemplos/exemplo-uso.php";
+    $abs = "$baseReal/$rel";
+    if (!is_file($abs)) { addErro("Programa de exemplo obrigatório ausente: $rel"); return; }
+    if (!is_readable($abs)) { addErro("Programa de exemplo sem leitura: $rel"); return; }
+    $txt = file_get_contents($abs);
+    if (!is_string($txt) || trim($txt) === '') { addErro("Programa de exemplo vazio: $rel"); return; }
+    if (!str_starts_with($txt, "#!") && stripos($txt, '<?php') === false) addErro("Programa de exemplo PHP deve ter shebang ou bloco <?php: $rel");
+    if (temPlaceholder($txt)) addErro("Programa de exemplo contem placeholders/TODO: $rel");
+    if (stripos($txt, 'payload.dados') === false && stripos($txt, "'dados'") === false && stripos($txt, '"dados"') === false) addErro("Programa de exemplo deve montar payload/dados do conector: $rel");
+    if (stripos($txt, 'idmensagem') === false) addErro("Programa de exemplo deve demonstrar idmensagem do catalogo: $rel");
+    if (stripos($txt, $nome) === false) addErro("Programa de exemplo deve referenciar o conector $nome: $rel");
+
+    $cmdLint = 'php -n -l ' . escapeshellarg($abs) . ' 2>&1';
+    exec($cmdLint, $lintOut, $lintRc);
+    if ($lintRc !== 0) addErro("Programa de exemplo PHP com erro de sintaxe: $rel: " . implode(' ', $lintOut));
+
+    $cmdRun = 'php -n ' . escapeshellarg($abs) . ' --self-test 2>&1';
+    exec($cmdRun, $runOut, $runRc);
+    $saida = trim(implode("\n", $runOut));
+    if ($runRc !== 0) { addErro("Programa de exemplo falhou no --self-test: $rel: $saida"); return; }
+    try { $json = json_decode($saida, true, 128, JSON_THROW_ON_ERROR); }
+    catch (Throwable $e) { addErro("Programa de exemplo --self-test deve retornar JSON valido: $rel: " . $e->getMessage()); return; }
+    if (!is_array($json)) { addErro("Programa de exemplo --self-test deve retornar objeto JSON: $rel"); return; }
+    if (($json['sucesso'] ?? null) !== true) addErro("Programa de exemplo --self-test deve retornar sucesso=true: $rel");
+    if (($json['conector'] ?? null) !== $nome) addErro("Programa de exemplo --self-test deve retornar conector=$nome: $rel");
+    $idm = $json['idmensagem'] ?? '';
+    if (!is_string($idm) || $idm === '') addErro("Programa de exemplo --self-test deve retornar idmensagem: $rel");
+    elseif (stripos($catalogoTexto, $idm) === false) addErro("Programa de exemplo retornou idmensagem não presente no catalogo: $idm");
+    if (!isset($json['payload']['dados']) || !is_array($json['payload']['dados'])) addErro("Programa de exemplo --self-test deve retornar payload.dados de exemplo: $rel");
+    addOk("Programa de exemplo validado: $rel");
+}
+
+function validarQualidadeManualUsuario(string $html, string $manualRel, string $nome): void {
+    $texto = trim(strip_tags($html));
+    $minBytes = 6000;
+    if (strlen($html) < $minBytes) addErro("Manual HTML do usuario curto demais: $manualRel. Use o padrao de qualidade do conector-email, com identificacao, tabelas, exemplos, saida, credenciais, erros, limites, seguranca de uso e boas praticas.");
+    if (stripos($html, '<html') === false || stripos($html, '</html>') === false) addErro("Manual do usuario deve ser HTML completo com <html>...</html>: $manualRel");
+    if (stripos($html, '<style') === false) addErro("Manual do usuario deve conter CSS proprio de leitura, no padrao visual do manual do conector-email: $manualRel");
+    if (substr_count(strtolower($html), '<table') < 2) addErro("Manual do usuario deve usar tabelas para operacoes/campos/erros, como o conector-email: $manualRel");
+    if (substr_count(strtolower($html), '<pre') < 3) addErro("Manual do usuario deve conter exemplos completos em blocos <pre><code>: $manualRel");
+    if (stripos($html, $nome) === false || stripos($html, "conector__$nome") === false) addErro("Manual do usuario deve identificar conector e destino SISC conector__$nome: $manualRel");
+
+    $secoes = [
+        'Identificação', 'Objetivo', 'Operações', 'Payload de entrada', 'Exemplo',
+        'Saída esperada', 'Programa de exemplo', 'Credenciais', 'Erros comuns', 'Limites', 'Segurança de uso', 'Boas práticas'
+    ];
+    foreach ($secoes as $secao) {
+        if (stripos($html, $secao) === false) addErro("Manual do usuario sem seção obrigatoria '$secao': $manualRel");
+    }
+    foreach (['payload.dados', 'idmensagem', 'catalogo', 'destino SISC', 'idempotencia'] as $termo) {
+        if (stripos($html, $termo) === false) addErro("Manual do usuario deve explicar '$termo': $manualRel");
+    }
+    foreach (['sandbox-handler', 'validar-recebidos', 'testar-sandbox', 'instalar-aprovados', '/var/www/html/gitconectores'] as $termoInterno) {
+        if (stripos($html, $termoInterno) !== false) addErro("Manual do usuario nao deve citar detalhe operacional interno do servidor SISC ('$termoInterno'); ele deve documentar apenas o conector, seu catalogo e suas mensagens: $manualRel");
+    }
+    if (strlen($texto) < 1700) addErro("Manual do usuario tem pouco conteúdo textual util: $manualRel");
+    if (temPlaceholder($html)) addErro("Manual do usuario contem placeholders/TODO: $manualRel");
 }
 
 $base = $argv[1] ?? getcwd();
@@ -76,7 +161,10 @@ if (count($dirs) === 0) addErro('Nenhum conector encontrado em conectores/<nome>
 if (count($dirs) > 1) addErro('A submissao deve conter apenas um conector por pacote. Encontrados: ' . implode(', ', $dirs));
 
 $nome = $dirs[0] ?? '';
-if ($nome !== '' && $nome !== normalizarNome($nome)) addErro("Nome de diretorio invalido: $nome. Use conector-<nome> com letras minusculas, numeros e hifens.");
+if ($nome !== '' && (!nomeConectorValido($nome) || $nome !== normalizarNome($nome))) {
+    addErro("Nome de diretorio invalido: $nome. Use conector-<nome> somente com letras minusculas, numeros e hifens; underscore nao e aceito.");
+}
+validarEntradasSemLinks($baseReal);
 
 $conectorBase = $nome ? "$conectoresDir/$nome" : '';
 $manifestoPath = $nome ? "$conectorBase/$nome.json" : '';
@@ -94,9 +182,11 @@ if ($manifesto) {
 
     $testeSandbox = is_array($manifesto['testeSandbox'] ?? null) ? $manifesto['testeSandbox'] : null;
     if (!$testeSandbox) {
-        addAviso('Manifesto sem testeSandbox; o pacote pode validar localmente, mas nao recebera selo-sandbox automatico no servidor.');
+        addErro('Manifesto sem testeSandbox; o servidor nao emitira selo-sandbox e o SISC real recusara a instalacao.');
     } elseif (($testeSandbox['permitido'] ?? null) !== true || ($testeSandbox['semEfeitoReal'] ?? null) !== true) {
-        addAviso('testeSandbox deve declarar permitido=true e semEfeitoReal=true para habilitar execucao automatica no testesis.');
+        addErro('testeSandbox deve declarar permitido=true e semEfeitoReal=true para habilitar selo-sandbox no testesis.');
+    } elseif (!is_string($testeSandbox['descricao'] ?? null) || trim((string)$testeSandbox['descricao']) === '') {
+        addErro('testeSandbox.descricao deve justificar por que a mensagem de teste nao causa efeito real.');
     }
 
     $ctrl = is_array($manifesto['controlador'] ?? null) ? $manifesto['controlador'] : [];
@@ -109,8 +199,8 @@ if ($manifesto) {
     $handlerRel = (string)($ctrl['handlerLerMensagem'] ?? '');
     if ($handlerRel === '') addErro('controlador.handlerLerMensagem e obrigatorio.');
     else {
-        $handlerRelLimpo = preg_replace('#^\./#', '', $handlerRel) ?? $handlerRel;
-        if (!seguroRel($handlerRelLimpo)) addErro('controlador.handlerLerMensagem deve ser caminho relativo seguro.');
+        $handlerRelLimpo = limparRelDeclarado($handlerRel);
+        if (!seguroRel($handlerRelLimpo)) addErro('controlador.handlerLerMensagem deve ser caminho relativo seguro, sem / inicial, .., ., //, barra invertida ou controles.');
         if (!str_starts_with($handlerRelLimpo, "conectores/$nome/handlers/")) addErro('handlerLerMensagem deve ficar dentro de conectores/<nome>/handlers/.');
         $handlerAbs = $baseReal . '/' . $handlerRelLimpo;
         if (!is_file($handlerAbs)) addErro("Handler declarado nao encontrado: $handlerRelLimpo");
@@ -118,16 +208,18 @@ if ($manifesto) {
             if (!is_executable($handlerAbs)) addErro("Handler deve estar executavel (chmod +x): $handlerRelLimpo");
             $h = file_get_contents($handlerAbs) ?: '';
             if (trim($h) === '') addErro("Handler vazio: $handlerRelLimpo");
+            if (!str_starts_with($h, "#!") && substr($h, 0, 4) !== "\x7FELF") addErro("Handler deve ser executavel direto: script com shebang na primeira linha ou binario ELF: $handlerRelLimpo");
             if (temPlaceholder($h)) addErro("Handler contem placeholders/TODO: $handlerRelLimpo");
-            foreach (['espaco/entrada', '../espaco', '/espaco/', 'pp --api', 'shell_exec(', 'system(', 'passthru(', 'eval('] as $termo) {
-                if (stripos($h, $termo) !== false) addErro("Handler contem termo proibido ou perigoso '$termo'. Use somente POST HTTP para api.php e evite execucao de shell.");
+            foreach (['espaco/', '/espaco', '../espaco', 'pp --api', 'shell_exec(', 'system(', 'passthru(', 'eval(', 'proc_open(', 'popen(', 'os.system', 'subprocess.', 'child_process', 'ProcessBuilder', 'Runtime.getRuntime'] as $termo) {
+                if (stripos($h, $termo) !== false) addErro("Handler contem termo proibido ou perigoso '$termo'. Use somente POST HTTP para api.php e evite execucao de shell/acesso direto ao espaco.");
             }
+            if (stripos($h, 'secretos/') !== false && stripos($h, "secretos/$nome.json") === false) addAviso("Handler referencia secretos/; no runtime novo somente secretos/$nome.json fica visivel no sandbox.");
             if (!preg_match('/payload.*dados|dados.*payload/s', $h)) addAviso('Nao encontrei leitura clara de payload.dados no handler; confirme que a identidade e dados vêm do JSON recebido.');
             addOk("Handler localizado: $handlerRelLimpo");
         }
     }
 
-    $fmtRel = (string)($manifesto['formatoConector'] ?? '');
+    $fmtRel = limparRelDeclarado((string)($manifesto['formatoConector'] ?? ''));
     if ($fmtRel === '' || !seguroRel($fmtRel)) addErro('formatoConector deve ser caminho relativo seguro.');
     else {
         $fmtAbs = $baseReal . '/' . $fmtRel;
@@ -152,15 +244,17 @@ if ($manifesto) {
         if ($papel) $papeis[$papel] = true;
         foreach (['origem','destino'] as $k) {
             $r = (string)($a[$k] ?? '');
+            $r = limparRelDeclarado($r);
             if ($r === '' || !seguroRel($r)) addErro("dependencias.arquivos[$i].$k invalido/inseguro.");
-            if (str_starts_with($r, 'secretos/')) addErro('Nunca inclua secretos reais no pacote; use apenas secretos/*.sample.json.');
+            if (str_starts_with($r, 'secretos/')) addErro('Nunca inclua secretos reais em dependencias.arquivos; use apenas secretos/*.sample.json fora das dependencias de instalacao.');
+            if ($k === 'destino' && !str_starts_with($r, "conectores/$nome/") && !str_starts_with($r, 'web-api/')) addErro("dependencias.arquivos[$i].destino fora das areas instalaveis permitidas: conectores/$nome/ ou web-api/.");
         }
-        $orig = (string)($a['origem'] ?? '');
+        $orig = limparRelDeclarado((string)($a['origem'] ?? ''));
         if ($orig && seguroRel($orig) && ($a['obrigatorio'] ?? false) === true && !is_file($baseReal . '/' . $orig)) addErro("Dependencia obrigatoria ausente: $orig");
     }
-    foreach (['manifesto','formato','handler','catalogo-mensagens','manual-usuario'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
+    foreach (['manifesto','formato','handler','catalogo-mensagens','manual-usuario','exemplo-uso'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
 
-    $manualRel = is_string($manifesto['manualUsuario'] ?? null) ? (string)$manifesto['manualUsuario'] : "conectores/$nome/manual-$nome.html";
+    $manualRel = is_string($manifesto['manualUsuario'] ?? null) ? limparRelDeclarado((string)$manifesto['manualUsuario']) : "conectores/$nome/manual-$nome.html";
     if (!seguroRel($manualRel)) {
         addErro('manualUsuario deve ser caminho relativo seguro.');
     } else {
@@ -172,12 +266,8 @@ if ($manifesto) {
             $html = file_get_contents($manualAbs);
             if (!is_string($html) || trim($html) === '') addErro("Manual HTML do usuario vazio: $manualRel");
             else {
-                if (stripos($html, '<html') === false || stripos($html, '</html>') === false) addErro("Manual do usuario deve ser HTML completo com <html>...</html>: $manualRel");
-                foreach (['destino', 'payload', 'credenciais', 'erros'] as $termo) {
-                    if (stripos($html, $termo) === false) addAviso("Manual do usuario deveria explicar '$termo': $manualRel");
-                }
-                if (temPlaceholder($html)) addErro("Manual do usuario contem placeholders/TODO: $manualRel");
-                addOk("Manual HTML do usuario validado: $manualRel");
+                validarQualidadeManualUsuario($html, $manualRel, $nome);
+                addOk("Manual HTML do usuario validado com padrao completo: $manualRel");
             }
         }
     }
@@ -225,6 +315,8 @@ if ($nome) {
         if ($ativas === 0) addErro('Catalogo nao possui nenhuma mensagem ativa; ative pelo menos uma mensagem antes da submissao.');
         if (temPlaceholder($catalogo)) addErro('Catalogo contem placeholders/TODO; preencha antes de submeter.');
         addOk("Catalogo validado: $catalogoRel");
+        $catalogoTexto = file_get_contents($baseReal . '/' . $catalogoRel);
+        validarExemploUso($baseReal, $nome, is_string($catalogoTexto) ? $catalogoTexto : '');
     }
 }
 

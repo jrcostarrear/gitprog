@@ -33,6 +33,12 @@
                 "origem": "conectores/conector-modelo/manual-conector-modelo.html",
                 "destino": "conectores/conector-modelo/manual-conector-modelo.html",
                 "obrigatorio": true
+            },
+            {
+                "papel": "exemplo-uso",
+                "origem": "conectores/conector-modelo/exemplos/exemplo-uso.php",
+                "destino": "conectores/conector-modelo/exemplos/exemplo-uso.php",
+                "obrigatorio": true
             }
         ]
     },
