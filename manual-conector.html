@@ -375,9 +375,10 @@ sys.exit(0)</code></pre>
 php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php --self-test</code></pre>
       <p>O modo <code>--self-test</code> deve imprimir JSON válido com <code>sucesso:true</code>, <code>conector</code>, <code>idmensagem</code>, <code>payload.dados</code> e <code>saidaEsperada</code>. O validador executa esse modo e confere se o exemplo produz o que declarou produzir.</p>
       <h3>Exemplo de consumo real com cabsisc.h</h3>
-      <p>Quando o conector também trouxer um exemplo de consumo real, use o padrão <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php</code>. Esse arquivo deve carregar <code>cabsisc.h</code> da raiz do kit; <code>cabsisc.h</code> carrega a biblioteca genérica <code>sisc-api-cliente.php</code> e define sistema/login. Para trocar conector, sistema ou login, ajuste <code>cabsisc.h</code>, <code>token-externo/&lt;login&gt;.txt</code> e os dados do exemplo; não edite <code>sisc-api-cliente.php</code>.</p>
+      <p>Quando o conector também trouxer um exemplo de consumo real, use o padrão <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php</code>. Esse arquivo deve carregar <code>cabsisc.h</code> da raiz do kit; <code>cabsisc.h</code> carrega a biblioteca genérica <code>sisc-api-cliente.php</code> e define sistema/login. Durante a homologação do programador, <code>cabsisc.h</code> deve apontar para <code>testesis</code>. Para trocar conector, sistema de teste ou login, ajuste <code>cabsisc.h</code>, <code>token-externo/&lt;login&gt;.txt</code> e os dados do exemplo; não edite <code>sisc-api-cliente.php</code>. O alvo <code>siscore</code> é produção e só deve ser usado pelo fluxo do servidor depois dos selos válidos.</p>
       <pre><code>require dirname(__DIR__, 3) . '/cabsisc.h';
 
+// cabsisc.h: $sisc = new sisc('testesis', '&lt;login&gt;');
 $resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
   'operacao' =&gt; 'executar',
   'campo' =&gt; 'valor de exemplo'

@@ -24,16 +24,16 @@ Este diretorio contem um modelo completo para programadores criarem conectores S
 Para consumir ou testar conectores pelo kit, o programador deve editar apenas a configuracao local em `cabsisc.h` e criar o arquivo de token correspondente em `token-externo/<login>.txt`.
 
 ```php
-$sisc = new sisc('siscore', 'meu-login');
+$sisc = new sisc('testesis', 'meu-login');
 ```
 
-Regra importante: `sisc-api-cliente.php` e biblioteca generica. Para outro conector ou outro login, nao altere essa biblioteca; ajuste `cabsisc.h`, o arquivo `token-externo/<login>.txt` e os dados de negocio do exemplo do conector.
+Regra importante: `sisc-api-cliente.php` e biblioteca generica. Para outro conector ou outro login, nao altere essa biblioteca; ajuste `cabsisc.h`, o arquivo `token-externo/<login>.txt` e os dados de negocio do exemplo do conector. O kit deve apontar para `testesis` durante homologacao; `siscore` e alvo de producao do servidor depois dos selos validos, nao do teste local do programador.
 
 O arquivo de token pode conter token puro ou pares como:
 
 ```text
 token=<token recebido do operador>
-url=https://costarrear.com/sisc/siscore/conexao-externo/api.php
+url=https://costarrear.com/sisc/testesis/conexao-externo/api.php
 origem=sistema__cliente-exemplo
 ```
 

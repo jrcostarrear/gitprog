@@ -354,6 +354,18 @@ foreach (listarArquivos($baseReal) as $f) {
     }
 }
 
+$cabsiscPath = $baseReal . '/cabsisc.h';
+if (is_file($cabsiscPath)) {
+    $cabsiscTxt = file_get_contents($cabsiscPath);
+    if (is_string($cabsiscTxt) && preg_match('/new\s+sisc\s*\(\s*[\'\"]siscore[\'\"]/', $cabsiscTxt) === 1) {
+        addErro('cabsisc.h nao deve apontar para siscore no kit de homologacao; use testesis. A instalacao em siscore e feita somente pelo servidor apos selos validos.');
+    } elseif (is_string($cabsiscTxt) && preg_match('/new\s+sisc\s*\(\s*[\'\"]testesis[\'\"]/', $cabsiscTxt) === 1) {
+        addOk('cabsisc.h configurado para testesis.');
+    } else {
+        addAviso('cabsisc.h encontrado, mas sem configuracao new sisc("testesis", ... ) claramente identificada.');
+    }
+}
+
 if (is_file($baseReal . '/README.md')) addOk('README.md encontrado.'); else addAviso('Recomenda-se incluir README.md com objetivo, instalacao e operacoes do conector.');
 if (is_file($baseReal . '/manual-conector.html')) addOk('manual-conector.html encontrado.'); else addAviso('manual-conector.html nao encontrado na raiz do pacote.');
 
