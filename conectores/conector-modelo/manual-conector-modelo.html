@@ -111,6 +111,9 @@
 <pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php</code></pre>
 <p>O mesmo programa possui modo de autoverificação, usado para comprovar que o exemplo produz o JSON que declara produzir.</p>
 <pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php --self-test</code></pre>
+<p>Para consumo real via API SISC, existe também <code>conectores/conector-modelo/exemplos/exemplo-cliente.php</code>. Ele usa a configuração local <code>cabsisc.h</code>, que por sua vez carrega a biblioteca genérica <code>sisc-api-cliente.php</code>. Para outro conector, ajuste o <code>idmensagem</code> e o payload no exemplo do conector; não altere <code>sisc-api-cliente.php</code>.</p>
+<pre><code>php conectores/conector-modelo/exemplos/exemplo-cliente.php "mensagem de teste"
+php conectores/conector-modelo/exemplos/exemplo-cliente.php --self-test</code></pre>
 
 <h2>Credenciais necessárias</h2>
 <div class="ok"><strong>Este conector não usa credenciais reais.</strong> O arquivo de exemplo <code>secretos/conector-modelo.sample.json</code> existe apenas para documentar a decisão.</div>
@@ -153,5 +156,10 @@
   <li>Ignorar campos desconhecidos de saída para manter compatibilidade futura.</li>
   <li>Consultar este manual e o catalogo modular sempre que o conector mudar de versão.</li>
 </ul>
+
+<!-- SISC-MANUAL-CONECTOR-GITHUB-KIT-V2 -->
+<h2>Fluxo GitHub, segurança e sandbox</h2>
+<div class="aviso"><strong>Procedimento atual:</strong> o programador clona <code>git@github.com:jrcostarrear/gitprog.git</code> em qualquer diretório da própria máquina; o conteúdo baixado traz o necessário para produzir, validar e enviar o conector ao SISC. Handlers devem ficar em <code>conectores/&lt;nome&gt;/handlers/</code>, sem link simbólico, com execução direta e caminho relativo seguro. No servidor, pacotes externos só entram no SISC real depois de <code>selo-validacao</code> e <code>selo-sandbox</code> válidos para o SHA256 exato.</div>
+
 </body>
 </html>

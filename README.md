@@ -12,7 +12,32 @@ Este diretorio contem um modelo completo para programadores criarem conectores S
 - `web-api/catalogo-conector-modelo.json`: catalogo modular de mensagens do exemplo.
 - `testes/mensagem-exemplo.json`: mensagem SISC de teste.
 - `conectores/conector-modelo/exemplos/exemplo-uso.php`: programa PHP de exemplo que demonstra o uso do conector e possui `--self-test` validável.
+- `conectores/conector-modelo/exemplos/exemplo-cliente.php`: exemplo de consumo real usando `cabsisc.h` e a biblioteca cliente.
+- `cabsisc.h`: configuracao local de sistema/login para exemplos de consumo; e o arquivo que o programador ajusta.
+- `sisc-api-cliente.php`: biblioteca cliente generica do SISC; nao altere para configurar conectores.
+- `token-externo/.gitignore`: mantem tokens locais fora do GitHub e fora dos pacotes.
+- `enviar-conector-sisc`: envio do pacote validado para homologacao/aprovacao.
 - Página de upload comunitária: `https://costarrear.com/gitconectores/upload.php`.
+
+## Configuração de consumo e teste
+
+Para consumir ou testar conectores pelo kit, o programador deve editar apenas a configuracao local em `cabsisc.h` e criar o arquivo de token correspondente em `token-externo/<login>.txt`.
+
+```php
+$sisc = new sisc('siscore', 'meu-login');
+```
+
+Regra importante: `sisc-api-cliente.php` e biblioteca generica. Para outro conector ou outro login, nao altere essa biblioteca; ajuste `cabsisc.h`, o arquivo `token-externo/<login>.txt` e os dados de negocio do exemplo do conector.
+
+O arquivo de token pode conter token puro ou pares como:
+
+```text
+token=<token recebido do operador>
+url=https://costarrear.com/sisc/siscore/conexao-externo/api.php
+origem=sistema__cliente-exemplo
+```
+
+Nunca envie `token-externo/*.txt` ao GitHub nem dentro do pacote do conector.
 
 ## Handler pode ser em qualquer linguagem
 
@@ -318,7 +343,7 @@ O servidor tambem faz preflight antes de emitir `selo-sandbox`: se `SISC_SANDBOX
 ## Empacotamento sugerido apos aprovacao
 
 ```bash
-tar --exclude='./dist' --exclude='.git' -czf dist/conector-nome.tar.gz .
+tar --exclude='./dist' --exclude='.git' --exclude='./token-externo/*.txt' -czf dist/conector-nome.tar.gz .
 ```
 
 Envie somente pacotes aprovados pelo `./validar-conector`. O validador local rejeita links simbolicos, caminhos inseguros, handler fora de `conectores/<nome>/handlers/`, handler sem execucao direta, dependencias instalaveis fora de `conectores/<nome>/` ou `web-api/`, segredos reais e `testeSandbox` ausente/invalido.

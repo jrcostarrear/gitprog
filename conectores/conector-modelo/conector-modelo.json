@@ -39,6 +39,12 @@
                 "origem": "conectores/conector-modelo/exemplos/exemplo-uso.php",
                 "destino": "conectores/conector-modelo/exemplos/exemplo-uso.php",
                 "obrigatorio": true
+            },
+            {
+                "papel": "exemplo-consumidor",
+                "origem": "conectores/conector-modelo/exemplos/exemplo-cliente.php",
+                "destino": "conectores/conector-modelo/exemplos/exemplo-cliente.php",
+                "obrigatorio": true
             }
         ]
     },

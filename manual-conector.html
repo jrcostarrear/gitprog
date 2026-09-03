@@ -374,6 +374,14 @@ sys.exit(0)</code></pre>
       <pre><code>php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php
 php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php --self-test</code></pre>
       <p>O modo <code>--self-test</code> deve imprimir JSON válido com <code>sucesso:true</code>, <code>conector</code>, <code>idmensagem</code>, <code>payload.dados</code> e <code>saidaEsperada</code>. O validador executa esse modo e confere se o exemplo produz o que declarou produzir.</p>
+      <h3>Exemplo de consumo real com cabsisc.h</h3>
+      <p>Quando o conector também trouxer um exemplo de consumo real, use o padrão <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php</code>. Esse arquivo deve carregar <code>cabsisc.h</code> da raiz do kit; <code>cabsisc.h</code> carrega a biblioteca genérica <code>sisc-api-cliente.php</code> e define sistema/login. Para trocar conector, sistema ou login, ajuste <code>cabsisc.h</code>, <code>token-externo/&lt;login&gt;.txt</code> e os dados do exemplo; não edite <code>sisc-api-cliente.php</code>.</p>
+      <pre><code>require dirname(__DIR__, 3) . '/cabsisc.h';
+
+$resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
+  'operacao' =&gt; 'executar',
+  'campo' =&gt; 'valor de exemplo'
+], 'executar');</code></pre>
       <div class="callout ok"><b>Como o programador sabe se está bom:</b> copie o nível de detalhamento do <code>conectores/conector-modelo/manual-conector-modelo.html</code>, adapte para seu serviço e rode <code>./validar-conector</code>. O validador reprova manual raso, genérico, sem exemplo validável ou com bastidor interno do servidor.</div>
     </article>
 
@@ -659,6 +667,7 @@ CORREÇÃO: coloque os dados de negócio dentro de payload.dados</code></pre>
   --exclude='.git' \
   --exclude='*.log' \
   --exclude='.env' \
+  --exclude='./token-externo/*.txt' \
   -czf dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz .</code></pre>
       <p>O nome do arquivo deve ajudar quem recebe: inclua o nome do conector e a versão. Exemplo: <code>conector-pagamentos-1.0.0.tar.gz</code>.</p>
 
@@ -1748,5 +1757,9 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
   const map=new Map(); automatico.forEach(v=>map.set(v,'auto-value')); preencher.forEach(v=>map.set(v,'fill-value')); const terms=Array.from(map.keys()).sort((a,b)=>b.length-a.length); const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); const re=new RegExp(terms.map(esc).join('|'),'g'); document.querySelectorAll('pre code').forEach(code=>{const w=document.createTreeWalker(code,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);ns.forEach(n=>{const text=n.nodeValue;if(!re.test(text)){re.lastIndex=0;return}re.lastIndex=0;const frag=document.createDocumentFragment();let last=0;text.replace(re,(m,off)=>{frag.appendChild(document.createTextNode(text.slice(last,off)));const span=document.createElement('span');span.className=map.get(m);span.textContent=m;frag.appendChild(span);last=off+m.length});frag.appendChild(document.createTextNode(text.slice(last)));n.parentNode.replaceChild(frag,n)})});
   const hash=location.hash.replace('#',''); if(hash&&document.getElementById(hash))activate(hash); else showTree('guia',false);
 </script>
+
+<!-- SISC-MANUAL-CONECTOR-GITHUB-KIT-V2 -->
+<div class="callout ok"><b>Nota de fluxo para programadores:</b> clone <code>git@github.com:jrcostarrear/gitprog.git</code> em qualquer diretório da sua máquina. Esse conteúdo baixado contém o necessário para produzir, validar e enviar conectores ao SISC; o pacote gerado deve passar no validador local e depois no funil do servidor, com sandbox ativo e selos válidos.</div>
+
 </body>
 </html>

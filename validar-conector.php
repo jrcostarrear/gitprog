@@ -345,6 +345,7 @@ if ($teste) {
 foreach (listarArquivos($baseReal) as $f) {
     $r = rel($baseReal, $f);
     if (preg_match('#(^|/)secretos/(?!.*\.sample\.json$)#', $r)) addErro("Arquivo proibido no pacote: $r. Envie apenas exemplos .sample.json, nunca segredos reais.");
+    if (preg_match('#(^|/)token-externo/.*\.txt$#', $r)) addErro("Arquivo proibido no pacote: $r. Tokens de cliente devem ficar somente no ambiente local/servidor e nunca no GitHub ou pacote.");
     if (preg_match('/\.(php|sh|py|js|json|md|html|txt)$/i', $r)) {
         $txt = file_get_contents($f);
         if (is_string($txt) && preg_match('/(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----|xox[baprs]-|sk-[A-Za-z0-9]{20,})/', $txt)) {
