@@ -131,6 +131,7 @@
     "instrucoes": [
         "Renomeie conector-modelo para conector-<servico> em todos os arquivos antes de submeter um conector real.",
         "Mantenha o handler em conectores/<nome>/handlers/ e executavel com chmod +x.",
+        "Mantenha os exemplos em conectores/<nome>/exemplos/ e liste exemplo-uso e exemplo-consumidor em dependencias.arquivos.",
         "Nao inclua segredos reais no pacote. Envie somente arquivos .sample.json quando necessario.",
         "Nao escreva diretamente em espaco/. Use POST HTTP para api.php quando precisar publicar resposta."
     ],

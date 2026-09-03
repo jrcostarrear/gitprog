@@ -83,6 +83,8 @@ function normalizarNome(string $nome): string {
 }
 
 function validarExemploUso(string $baseReal, string $nome, string $catalogoTexto): void {
+    global $erros;
+    $errosAntes = count($erros);
     $rel = "conectores/$nome/exemplos/exemplo-uso.php";
     $abs = "$baseReal/$rel";
     if (!is_file($abs)) { addErro("Programa de exemplo obrigatório ausente: $rel"); return; }
@@ -112,7 +114,46 @@ function validarExemploUso(string $baseReal, string $nome, string $catalogoTexto
     if (!is_string($idm) || $idm === '') addErro("Programa de exemplo --self-test deve retornar idmensagem: $rel");
     elseif (stripos($catalogoTexto, $idm) === false) addErro("Programa de exemplo retornou idmensagem não presente no catalogo: $idm");
     if (!isset($json['payload']['dados']) || !is_array($json['payload']['dados'])) addErro("Programa de exemplo --self-test deve retornar payload.dados de exemplo: $rel");
-    addOk("Programa de exemplo validado: $rel");
+    if (count($erros) === $errosAntes) addOk("Programa de exemplo validado: $rel");
+}
+
+function validarExemploCliente(string $baseReal, string $nome, string $catalogoTexto): void {
+    global $erros;
+    $errosAntes = count($erros);
+    $rel = "conectores/$nome/exemplos/exemplo-cliente.php";
+    $abs = "$baseReal/$rel";
+    if (!is_file($abs)) { addErro("Programa consumidor obrigatório ausente: $rel"); return; }
+    if (!is_readable($abs)) { addErro("Programa consumidor sem leitura: $rel"); return; }
+    $txt = file_get_contents($abs);
+    if (!is_string($txt) || trim($txt) === '') { addErro("Programa consumidor vazio: $rel"); return; }
+    if (!str_starts_with($txt, "#!") && stripos($txt, '<?php') === false) addErro("Programa consumidor PHP deve ter shebang ou bloco <?php: $rel");
+    if (temPlaceholder($txt)) addErro("Programa consumidor contem placeholders/TODO: $rel");
+    if (stripos($txt, $nome) === false) addErro("Programa consumidor deve referenciar o conector $nome: $rel");
+    if (stripos($txt, 'idmensagem') === false) addErro("Programa consumidor deve demonstrar idmensagem do catalogo: $rel");
+    if (stripos($txt, 'http') === false && stripos($txt, 'api') === false) addErro("Programa consumidor deve consumir a API HTTP publica do SISC: $rel");
+    if (stripos($txt, 'curl_') === false && stripos($txt, 'file_get_contents') === false && stripos($txt, 'stream_context_create') === false && stripos($txt, '->enviar(') === false) addErro("Programa consumidor deve demonstrar chamada HTTP/API real: $rel");
+    foreach (['handlers/', '/handlers/', 'espaco/', '/espaco', '/var/www/html'] as $termo) {
+        if (stripos($txt, $termo) !== false) addErro("Programa consumidor nao deve acessar/revelar caminho interno '$termo'; consuma somente via API SISC: $rel");
+    }
+
+    $cmdLint = 'php -n -l ' . escapeshellarg($abs) . ' 2>&1';
+    exec($cmdLint, $lintOut, $lintRc);
+    if ($lintRc !== 0) addErro("Programa consumidor PHP com erro de sintaxe: $rel: " . implode(' ', $lintOut));
+
+    $cmdRun = 'php -n ' . escapeshellarg($abs) . ' --self-test 2>&1';
+    exec($cmdRun, $runOut, $runRc);
+    $saida = trim(implode("\n", $runOut));
+    if ($runRc !== 0) { addErro("Programa consumidor falhou no --self-test: $rel: $saida"); return; }
+    try { $json = json_decode($saida, true, 128, JSON_THROW_ON_ERROR); }
+    catch (Throwable $e) { addErro("Programa consumidor --self-test deve retornar JSON valido: $rel: " . $e->getMessage()); return; }
+    if (!is_array($json)) { addErro("Programa consumidor --self-test deve retornar objeto JSON: $rel"); return; }
+    if (($json['sucesso'] ?? null) !== true) addErro("Programa consumidor --self-test deve retornar sucesso=true: $rel");
+    if (($json['conector'] ?? null) !== $nome) addErro("Programa consumidor --self-test deve retornar conector=$nome: $rel");
+    $idm = $json['idmensagem'] ?? '';
+    if (!is_string($idm) || $idm === '') addErro("Programa consumidor --self-test deve retornar idmensagem: $rel");
+    elseif (stripos($catalogoTexto, $idm) === false) addErro("Programa consumidor retornou idmensagem não presente no catalogo: $idm");
+    if (!isset($json['payload']['dados']) && !isset($json['dados'])) addErro("Programa consumidor --self-test deve retornar dados de exemplo: $rel");
+    if (count($erros) === $errosAntes) addOk("Programa consumidor validado: $rel");
 }
 
 function validarQualidadeManualUsuario(string $html, string $manualRel, string $nome): void {
@@ -236,7 +277,7 @@ if ($manifesto) {
     $deps = is_array($manifesto['dependencias'] ?? null) ? $manifesto['dependencias'] : [];
     if (($deps['fonteSeguraImportacao'] ?? null) !== true) addErro('dependencias.fonteSeguraImportacao deve ser true.');
     $arqs = is_array($deps['arquivos'] ?? null) ? $deps['arquivos'] : [];
-    if (count($arqs) === 0) addErro('dependencias.arquivos deve listar manifesto, formato, handler, catalogo e manual de usuario.');
+    if (count($arqs) === 0) addErro('dependencias.arquivos deve listar manifesto, formato, handler, catalogo, manual de usuario e exemplos.');
     $papeis = [];
     foreach ($arqs as $i => $a) {
         if (!is_array($a)) { addErro("dependencias.arquivos[$i] deve ser objeto."); continue; }
@@ -252,7 +293,7 @@ if ($manifesto) {
         $orig = limparRelDeclarado((string)($a['origem'] ?? ''));
         if ($orig && seguroRel($orig) && ($a['obrigatorio'] ?? false) === true && !is_file($baseReal . '/' . $orig)) addErro("Dependencia obrigatoria ausente: $orig");
     }
-    foreach (['manifesto','formato','handler','catalogo-mensagens','manual-usuario','exemplo-uso'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
+    foreach (['manifesto','formato','handler','catalogo-mensagens','manual-usuario','exemplo-uso','exemplo-consumidor'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
 
     $manualRel = is_string($manifesto['manualUsuario'] ?? null) ? limparRelDeclarado((string)$manifesto['manualUsuario']) : "conectores/$nome/manual-$nome.html";
     if (!seguroRel($manualRel)) {
@@ -317,6 +358,7 @@ if ($nome) {
         addOk("Catalogo validado: $catalogoRel");
         $catalogoTexto = file_get_contents($baseReal . '/' . $catalogoRel);
         validarExemploUso($baseReal, $nome, is_string($catalogoTexto) ? $catalogoTexto : '');
+        validarExemploCliente($baseReal, $nome, is_string($catalogoTexto) ? $catalogoTexto : '');
     }
 }
 

@@ -12,7 +12,7 @@ Este diretorio contem um modelo completo para programadores criarem conectores S
 - `web-api/catalogo-conector-modelo.json`: catalogo modular de mensagens do exemplo.
 - `testes/mensagem-exemplo.json`: mensagem SISC de teste.
 - `conectores/conector-modelo/exemplos/exemplo-uso.php`: programa PHP de exemplo que demonstra o uso do conector e possui `--self-test` validável.
-- `conectores/conector-modelo/exemplos/exemplo-cliente.php`: exemplo de consumo real usando `cabsisc.h` e a biblioteca cliente.
+- `conectores/conector-modelo/exemplos/exemplo-cliente.php`: programa consumidor de exemplo, validável com `--self-test`, usando `cabsisc.h` e a biblioteca cliente.
 - `cabsisc.h`: configuracao local de sistema/login para exemplos de consumo; e o arquivo que o programador ajusta.
 - `sisc-api-cliente.php`: biblioteca cliente generica do SISC; nao altere para configurar conectores.
 - `token-externo/.gitignore`: mantem tokens locais fora do GitHub e fora dos pacotes.
@@ -232,19 +232,20 @@ Qualidade esperada no HTML:
 - explique limites, timeouts, precisao, rate limit ou efeitos externos;
 - explique seguranca de uso, dados sensiveis e idempotencia;
 - inclua boas praticas para consumidores;
-- documente o programa de exemplo fornecido no pacote e o que ele demonstra.
+- documente os programas de exemplo fornecidos no pacote e o que cada um demonstra.
 
 O modelo de qualidade fica em `conectores/conector-modelo/manual-conector-modelo.html`. Antes de empacotar, rode `./validar-conector`; ele reprova manual raso, generico, sem exemplos/tabelas ou que cite detalhes internos do servidor em vez de documentar o conector.
 
-## Programa de exemplo obrigatorio
+## Programas de exemplo obrigatorios
 
-O programador deve entregar um programa de exemplo que use os recursos do seu conector. O caminho esperado é:
+O programador deve entregar dois programas de exemplo dentro do diretório do conector:
 
 ```text
 conectores/conector-nome/exemplos/exemplo-uso.php
+conectores/conector-nome/exemplos/exemplo-cliente.php
 ```
 
-O exemplo deve:
+O `exemplo-uso.php` deve:
 
 - ser PHP válido;
 - montar uma mensagem ou payload realista usando o `idmensagem` do catalogo;
@@ -252,7 +253,9 @@ O exemplo deve:
 - explicar pelo próprio código o que a chamada produz;
 - ter modo `--self-test` que imprime JSON válido com `sucesso:true`, `conector`, `idmensagem`, `payload.dados` e `saidaEsperada`.
 
-O `./validar-conector` executa `php -l` e `php conectores/<nome>/exemplos/exemplo-uso.php --self-test`. Se o programa não produzir o JSON prometido ou usar `idmensagem` fora do catalogo, o pacote é reprovado.
+O `exemplo-cliente.php` deve demonstrar consumo real pela API SISC usando a estrutura nova do kit: carregar `cabsisc.h` da raiz com `require dirname(__DIR__, 3) . '/cabsisc.h';`, usar `$sisc->enviar(...)`, ler sistema/login/token a partir de `cabsisc.h` e `token-externo/<login>.txt`, e também ter `--self-test` sem depender de token real.
+
+O manifesto deve listar os dois exemplos em `dependencias.arquivos` com os papéis `exemplo-uso` e `exemplo-consumidor`. O `./validar-conector` executa `php -l`, `exemplo-uso.php --self-test` e `exemplo-cliente.php --self-test`. Se algum programa não produzir o JSON prometido ou usar `idmensagem` fora do catalogo, o pacote é reprovado.
 
 ## Credenciais, senhas e tokens
 

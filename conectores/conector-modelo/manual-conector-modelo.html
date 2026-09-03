@@ -111,7 +111,7 @@
 <pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php</code></pre>
 <p>O mesmo programa possui modo de autoverificação, usado para comprovar que o exemplo produz o JSON que declara produzir.</p>
 <pre><code>php conectores/conector-modelo/exemplos/exemplo-uso.php --self-test</code></pre>
-<p>Para consumo real via API SISC, existe também <code>conectores/conector-modelo/exemplos/exemplo-cliente.php</code>. Ele usa a configuração local <code>cabsisc.h</code>, que por sua vez carrega a biblioteca genérica <code>sisc-api-cliente.php</code>. Para outro conector, ajuste o <code>idmensagem</code> e o payload no exemplo do conector; não altere <code>sisc-api-cliente.php</code>.</p>
+<p>Para consumo real via API SISC, o pacote também traz <code>conectores/conector-modelo/exemplos/exemplo-cliente.php</code>. Ele usa a estrutura nova do kit: carrega <code>cabsisc.h</code> da raiz com <code>require dirname(__DIR__, 3) . '/cabsisc.h';</code>, e o <code>cabsisc.h</code> carrega a biblioteca genérica <code>sisc-api-cliente.php</code>. Para outro conector, ajuste o <code>idmensagem</code> e o payload no exemplo do conector; não altere <code>sisc-api-cliente.php</code>.</p>
 <pre><code>php conectores/conector-modelo/exemplos/exemplo-cliente.php "mensagem de teste"
 php conectores/conector-modelo/exemplos/exemplo-cliente.php --self-test</code></pre>
 
