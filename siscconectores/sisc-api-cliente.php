@@ -4,7 +4,7 @@ declare(strict_types=1);
 /*
  * Cliente PHP simples para o SISC.
  * Para uso do cliente existem apenas dois metodos: mensagens() e enviar().
- * No sistema SISC, tokens de cliente devem ficar somente em token-externo/<login>.txt.
+ * No sistema SISC, tokens de cliente devem ficar somente em token-sisc/<login>.txt.
  */
 final class sisc
 {
@@ -14,13 +14,15 @@ final class sisc
     private string $token;
     private string $origem;
     private string $sistema;
+    private ?string $conector;
     private int $timeout = 25;
 
-    public function __construct(string $sistema, string $login)
+    public function __construct(string $sistema, string $login, ?string $conector = null)
     {
         $this->sistema = self::nomeSistema($sistema);
+        $this->conector = $conector !== null && $conector !== '' ? self::nomeConector($conector) : null;
 
-        $config = self::lerLogin($login);
+        $config = self::lerLogin($login, $this->conector);
 
         $this->urlApi = $config['url'] ?? (self::URL_BASE_PADRAO . '/' . $this->sistema . '/conexao-externo/api.php');
         $this->token = $config['token'] ?? '';
@@ -70,13 +72,13 @@ final class sisc
         return $this->postJson($this->urlApi, $payload);
     }
 
-    private static function lerLogin(string $login): array
+    private static function lerLogin(string $login, ?string $conector): array
     {
         $nome = self::nomeLogin($login);
         $arquivo = self::caminhoLogin($nome);
 
         if ($arquivo === null) {
-            throw new RuntimeException('Arquivo de login SISC nao encontrado em token-externo/' . $nome . '.txt.');
+            throw new RuntimeException('Arquivo de login SISC nao encontrado em token-sisc/' . $nome . '.txt.');
         }
 
         $conteudo = file_get_contents($arquivo, false, null, 0, 65536);
@@ -85,9 +87,21 @@ final class sisc
         }
 
         $config = ['nome' => $nome];
+        $tokensPorConector = [];
+        $tokenUnico = null;
         foreach (preg_split('/\R/', $conteudo) ?: [] as $linha) {
             $linha = trim($linha);
             if ($linha === '' || $linha[0] === '#') {
+                continue;
+            }
+
+            $posTokenConector = strpos($linha, '~');
+            if ($posTokenConector !== false) {
+                $nomeToken = self::nomeConector(trim(substr($linha, 0, $posTokenConector)));
+                $valorToken = trim(substr($linha, $posTokenConector + 1));
+                if ($valorToken !== '') {
+                    $tokensPorConector[$nomeToken] = $valorToken;
+                }
                 continue;
             }
 
@@ -106,9 +120,21 @@ final class sisc
                 $config['url'] = $valor;
             } elseif ($chave === 'origem' || $chave === 'sisc_api_origem') {
                 $config['origem'] = $valor;
-            } elseif ($chave === 'token' || $chave === 'sisc_api_token' || $chave === $nome || !isset($config['token'])) {
-                $config['token'] = $valor;
+            } elseif ($chave === 'token' || $chave === 'sisc_api_token' || $chave === $nome || $chave === '') {
+                $tokenUnico = $valor;
             }
+        }
+
+        if ($conector !== null && isset($tokensPorConector[$conector])) {
+            $config['token'] = $tokensPorConector[$conector];
+        } elseif ($conector !== null && count($tokensPorConector) > 0) {
+            throw new RuntimeException('Token SISC ausente para ' . $conector . ' em token-sisc/' . $nome . '.txt. Use o formato conector-nome~TOKEN.');
+        } elseif (count($tokensPorConector) === 1) {
+            $config['token'] = reset($tokensPorConector);
+        } elseif ($tokenUnico !== null) {
+            $config['token'] = $tokenUnico;
+        } elseif (count($tokensPorConector) > 1) {
+            throw new RuntimeException('Arquivo token-sisc/' . $nome . '.txt possui varios tokens; informe o conector no construtor.');
         }
 
         if (empty($config['token'])) {
@@ -122,12 +148,12 @@ final class sisc
     {
         $cwd = getcwd();
         $candidatos = [
-            __DIR__ . '/token-externo/' . $nome . '.txt',
-            __DIR__ . '/../token-externo/' . $nome . '.txt',
+            __DIR__ . '/token-sisc/' . $nome . '.txt',
+            __DIR__ . '/../token-sisc/' . $nome . '.txt',
         ];
         if (is_string($cwd) && $cwd !== '') {
-            $candidatos[] = $cwd . '/token-externo/' . $nome . '.txt';
-            $candidatos[] = $cwd . '/../token-externo/' . $nome . '.txt';
+            $candidatos[] = $cwd . '/token-sisc/' . $nome . '.txt';
+            $candidatos[] = $cwd . '/../token-sisc/' . $nome . '.txt';
         }
 
         foreach (array_unique($candidatos) as $arquivo) {
@@ -156,6 +182,15 @@ final class sisc
             throw new InvalidArgumentException('Nome de sistema SISC invalido.');
         }
         return $sistema;
+    }
+
+    private static function nomeConector(string $conector): string
+    {
+        $conector = trim($conector);
+        if ($conector === '' || preg_match('/^conector-[a-z0-9][a-z0-9-]{0,150}[a-z0-9]$/', $conector) !== 1) {
+            throw new InvalidArgumentException('Nome de conector SISC invalido.');
+        }
+        return $conector;
     }
 
     private static function idSeguro(string $valor): string

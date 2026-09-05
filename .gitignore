@@ -1,8 +1,13 @@
-dist/
+# pacotes gerados devem ficar dentro do conector
+conectores/*/dist/
+# compatibilidade: dist legado na raiz
+/dist/
 *.tar.gz
 *.tgz
 *.zip
-secretos/*.json
-!secretos/*.sample.json
-token-externo/*.txt
+siscconectores/secretos/*.json
+!siscconectores/secretos/*.sample.json
+siscconectores/token-sisc/*.txt
+# token local do kit, nunca entra no pacote
+token-sisc/*.txt
 .DS_Store

@@ -1,43 +1,20 @@
 # Kit participativo de conectores SISC
 
-Este diretorio contem um modelo completo para programadores criarem conectores SISC, validarem localmente e enviarem o pacote aprovado.
+Este diretorio contem somente o kit base para programadores criarem conectores SISC, validarem localmente e enviarem o pacote aprovado. Ele nao inclui conectores prontos, tokens locais, pacotes `dist/` nem segredos reais.
 
 ## Arquivos principais
 
 - `manual-conector.html`: manual em HTML para preencher/criar os arquivos do conector.
 - `validar-conector`: executavel de validacao local.
 - `validar-conector.php`: motor da validacao.
-- `conectores/conector-modelo/`: conector funcional de exemplo.
-- `conectores/conector-modelo/manual-conector-modelo.html`: manual HTML do exemplo para utilizadores do conector.
-- `web-api/catalogo-conector-modelo.json`: catalogo modular de mensagens do exemplo.
-- `testes/mensagem-exemplo.json`: mensagem SISC de teste.
-- `conectores/conector-modelo/exemplos/exemplo-uso.php`: programa PHP de exemplo que demonstra o uso do conector e possui `--self-test` validável.
-- `conectores/conector-modelo/exemplos/exemplo-cliente.php`: programa consumidor de exemplo, validável com `--self-test`, usando `cabsisc.h` e a biblioteca cliente.
-- `cabsisc.h`: configuracao local de sistema/login para exemplos de consumo; e o arquivo que o programador ajusta.
-- `sisc-api-cliente.php`: biblioteca cliente generica do SISC; nao altere para configurar conectores.
-- `token-externo/.gitignore`: mantem tokens locais fora do GitHub e fora dos pacotes.
-- `enviar-conector-sisc`: envio do pacote validado para homologacao/aprovacao.
+- `excluir-conector-kitprog.c`: fonte do utilitario que remove do kit os arquivos de um conector indicado.
+- `excluir-conector-kitprog`: utilitario compilado para exclusao limpa de conectores gerados.
+- `conectores/`: raiz onde cada novo conector deve criar `conectores/conector-nome/`.
+- `conectores/conector-nome/testes/mensagem-exemplo.json`: caminho esperado para a mensagem SISC de teste de cada conector criado.
+- `siscconectores/web-api/`: raiz dos catalogos modulares criados por conector.
+- `siscconectores/sisc-api-cliente.php`: biblioteca auxiliar genérica para exemplos consumidores.
+- `siscconectores/cabsisc.h`: configuração base genérica para exemplos consumidores; troque `conector-nome` pelo conector real.
 - Página de upload comunitária: `https://costarrear.com/gitconectores/upload.php`.
-
-## Configuração de consumo e teste
-
-Para consumir ou testar conectores pelo kit, o programador deve editar apenas a configuracao local em `cabsisc.h` e criar o arquivo de token correspondente em `token-externo/<login>.txt`.
-
-```php
-$sisc = new sisc('testesis', 'meu-login');
-```
-
-Regra importante: `sisc-api-cliente.php` e biblioteca generica. Para outro conector ou outro login, nao altere essa biblioteca; ajuste `cabsisc.h`, o arquivo `token-externo/<login>.txt` e os dados de negocio do exemplo do conector. O kit deve apontar para `testesis` durante homologacao; `siscore` e alvo de producao do servidor depois dos selos validos, nao do teste local do programador.
-
-O arquivo de token pode conter token puro ou pares como:
-
-```text
-token=<token recebido do operador>
-url=https://costarrear.com/sisc/testesis/conexao-externo/api.php
-origem=sistema__cliente-exemplo
-```
-
-Nunca envie `token-externo/*.txt` ao GitHub nem dentro do pacote do conector.
 
 ## Handler pode ser em qualquer linguagem
 
@@ -107,11 +84,11 @@ Exemplo de resposta sem front-end:
 }
 ```
 
-Quando houver front-end, ele deve usar a camada segura `front-api.php`/`api.php`; o navegador nunca deve chamar handler diretamente, nem acessar `espaco/`, `secretos/` ou arquivos internos.
+Quando houver front-end, ele deve usar a camada segura `front-api.php`/`api.php`; o navegador nunca deve chamar handler diretamente, nem acessar `espaco/`, `siscconectores/secretos/` ou arquivos internos.
 
 ### Como fazer quando houver front-end
 
-1. Declare a mensagem normal do conector em `web-api/catalogo-conector-nome.json`.
+1. Declare a mensagem normal do conector em `siscconectores/web-api/catalogo-conector-nome.json`.
 2. Dentro da mensagem, adicione `front-api` inicialmente com `ativo:false`.
 3. Declare `entrada` com tipos, obrigatoriedade e limites.
 4. Declare `dadosSisc`, que transforma campos do formulario em `payload.dados`.
@@ -188,7 +165,7 @@ Checklist de seguranca para front-end:
 - manter `front-api.resposta.atualizar` igual ao nome do conector e usar o mesmo valor como `id`/`name` do objeto visual atualizado;
 - nao colocar tokens ou segredos em HTML/JS/CSS;
 - nao chamar handler diretamente;
-- nao acessar `espaco/`, `secretos/` ou arquivos internos;
+- nao acessar `espaco/`, `siscconectores/secretos/` ou arquivos internos;
 - documentar as acoes de front-end no manual HTML do conector.
 
 ## Manual HTML obrigatorio do conector
@@ -232,20 +209,39 @@ Qualidade esperada no HTML:
 - explique limites, timeouts, precisao, rate limit ou efeitos externos;
 - explique seguranca de uso, dados sensiveis e idempotencia;
 - inclua boas praticas para consumidores;
-- documente os programas de exemplo fornecidos no pacote e o que cada um demonstra.
+- documente o programa de exemplo fornecido no pacote e o que ele demonstra.
 
-O modelo de qualidade fica em `conectores/conector-modelo/manual-conector-modelo.html`. Antes de empacotar, rode `./validar-conector`; ele reprova manual raso, generico, sem exemplos/tabelas ou que cite detalhes internos do servidor em vez de documentar o conector.
+Use como referência de qualidade os exemplos embutidos em `manual-conector.html`. Antes de empacotar, rode `./validar-conector`; ele reprova manual raso, generico, sem exemplos/tabelas ou que cite detalhes internos do servidor em vez de documentar o conector.
 
-## Programas de exemplo obrigatorios
+## Programa de exemplo obrigatorio
 
-O programador deve entregar dois programas de exemplo dentro do diretório do conector:
+O programador deve entregar um programa de exemplo que use os recursos do seu conector. O caminho esperado é:
 
 ```text
-conectores/conector-nome/exemplos/exemplo-uso.php
-conectores/conector-nome/exemplos/exemplo-cliente.php
+siscconectores/conector-nome-uso.php
+siscconectores/conector-nome-cliente.php
 ```
 
-O `exemplo-uso.php` deve:
+Arquivos auxiliares de cliente devem ficar junto dos exemplos:
+
+```text
+siscconectores/cabsisc.h
+siscconectores/sisc-api-cliente.php
+```
+
+Tokens locais de consumo ficam em `token-sisc/<login>.txt`, fora do pacote enviado. Como um mesmo arquivo pode guardar tokens de vários conectores, cada linha de token deve usar o formato:
+
+```text
+conector-nome~TOKEN_DO_CONECTOR
+```
+
+No `cabsisc.h`, informe o conector no construtor para selecionar o token correto:
+
+```php
+$sisc = new sisc('siscore', 'meu-login', 'conector-nome');
+```
+
+O exemplo deve:
 
 - ser PHP válido;
 - montar uma mensagem ou payload realista usando o `idmensagem` do catalogo;
@@ -253,9 +249,7 @@ O `exemplo-uso.php` deve:
 - explicar pelo próprio código o que a chamada produz;
 - ter modo `--self-test` que imprime JSON válido com `sucesso:true`, `conector`, `idmensagem`, `payload.dados` e `saidaEsperada`.
 
-O `exemplo-cliente.php` deve demonstrar consumo real pela API SISC usando a estrutura nova do kit: carregar `cabsisc.h` da raiz com `require dirname(__DIR__, 3) . '/cabsisc.h';`, usar `$sisc->enviar(...)`, ler sistema/login/token a partir de `cabsisc.h` e `token-externo/<login>.txt`, e também ter `--self-test` sem depender de token real.
-
-O manifesto deve listar os dois exemplos em `dependencias.arquivos` com os papéis `exemplo-uso` e `exemplo-consumidor`. O `./validar-conector` executa `php -l`, `exemplo-uso.php --self-test` e `exemplo-cliente.php --self-test`. Se algum programa não produzir o JSON prometido ou usar `idmensagem` fora do catalogo, o pacote é reprovado.
+O `./validar-conector` executa `php -l` e `php siscconectores/conector-nome-uso.php --self-test`. Se o programa não produzir o JSON prometido ou usar `idmensagem` fora do catalogo, o pacote é reprovado.
 
 ## Credenciais, senhas e tokens
 
@@ -263,10 +257,10 @@ Conectores podem precisar de senha ou token para acessar servicos externos, como
 
 Padrao obrigatorio:
 
-- envie somente `secretos/conector-nome.sample.json` com estrutura de exemplo;
-- nao envie `secretos/conector-nome.json` real;
+- envie somente `siscconectores/secretos/conector-nome.sample.json` com estrutura de exemplo;
+- nao envie `siscconectores/secretos/conector-nome.json` real;
 - o operador cria o arquivo real apenas no servidor SISC;
-- o arquivo real deve ter permissao restrita, por exemplo `chmod 600 secretos/conector-email.json`;
+- o arquivo real deve ter permissao restrita, por exemplo `chmod 600 siscconectores/secretos/conector-email.json`;
 - o manifesto deve apontar a referencia em `servicoExterno.credenciais.referencia`;
 - o handler deve falhar claramente se o segredo estiver ausente ou incompleto;
 - o handler nunca deve imprimir senha, token ou Authorization header em logs.
@@ -277,7 +271,7 @@ Exemplo de manifesto:
 "servicoExterno": {
   "nome": "gmail",
   "credenciais": {
-    "referencia": "secretos/conector-email.json",
+    "referencia": "siscconectores/secretos/conector-email.json",
     "tipo": "arquivo-json-local-restrito",
     "permissaoRecomendada": "600"
   }
@@ -302,26 +296,36 @@ Exemplo que pode ir ao GitHub:
 
 No caso do Gmail, normalmente o operador nao deve usar a senha comum da conta. Use App Password ou OAuth2, conforme a implementacao do conector e as regras atuais do Google.
 
-O validador recusa arquivos reais em `secretos/*.json` e permite somente `secretos/*.sample.json`.
+O validador recusa arquivos reais em `siscconectores/secretos/*.json` e permite somente `siscconectores/secretos/*.sample.json`.
 
 ## Validacao local
 
 ```bash
-cd gitprog
+cd kitprog
 ./validar-conector
 ```
+
+## Exclusao limpa de um conector gerado
+
+```bash
+gcc -O2 -Wall -Wextra -o excluir-conector-kitprog excluir-conector-kitprog.c
+./excluir-conector-kitprog --dry-run conector-nome
+./excluir-conector-kitprog conector-nome
+```
+
+O utilitario remove diretorio do conector, catalogo modular, exemplos em `siscconectores/`, segredo sample, pacote em `dist` e referencias textuais restantes fora de `.git`.
 
 Para testar o handler do modelo:
 
 ```bash
-php conectores/conector-modelo/handlers/conector-modelo.php testes/mensagem-exemplo.json
+./conectores/conector-nome/handlers/executavel-do-handler conectores/conector-nome/testes/mensagem-exemplo.json
 ```
 
 Teste de aceitacao do handler, reproduzindo como o SISC chamara o executavel:
 
 ```bash
 chmod +x conectores/conector-nome/handlers/executavel-do-handler
-./conectores/conector-nome/handlers/executavel-do-handler testes/mensagem-exemplo.json
+./conectores/conector-nome/handlers/executavel-do-handler conectores/conector-nome/testes/mensagem-exemplo.json
 ```
 
 Chamadas como `php handler.php`, `python3 handler.py` ou `node handler.js` servem para depuracao, mas a submissao final deve funcionar por execucao direta do caminho declarado em `handlerLerMensagem`.
@@ -334,10 +338,12 @@ Para o servidor poder executar o pacote em `testesis` antes de integrar ao SISC 
 "testeSandbox": {
   "permitido": true,
   "semEfeitoReal": true,
-  "mensagem": "testes/mensagem-exemplo.json",
+  "mensagem": "conectores/conector-nome/testes/mensagem-exemplo.json",
   "descricao": "explique por que este teste e seguro/sandbox"
 }
 ```
+
+Liste tambem essa mensagem em `dependencias.arquivos` com `papel: "teste-sandbox"`, usando origem e destino `conectores/conector-nome/testes/mensagem-exemplo.json`.
 
 Sem essa declaracao, o validador local agora reprova o pacote, porque o servidor nao emitira `selo-sandbox` e o `siscore` real recusara a instalacao sem os dois selos.
 
@@ -346,7 +352,12 @@ O servidor tambem faz preflight antes de emitir `selo-sandbox`: se `SISC_SANDBOX
 ## Empacotamento sugerido apos aprovacao
 
 ```bash
-tar --exclude='./dist' --exclude='.git' --exclude='./token-externo/*.txt' -czf dist/conector-nome.tar.gz .
+CONECTOR=conector-nome
+VERSAO=1.0.0
+mkdir -p "conectores/$CONECTOR/dist"
+tar --exclude="./conectores/$CONECTOR/dist" --exclude='./dist' --exclude='.git' \
+  --exclude='./token-sisc' --exclude='./siscconectores/token-sisc' \
+  -czf "conectores/$CONECTOR/dist/$CONECTOR-$VERSAO.tar.gz" .
 ```
 
-Envie somente pacotes aprovados pelo `./validar-conector`. O validador local rejeita links simbolicos, caminhos inseguros, handler fora de `conectores/<nome>/handlers/`, handler sem execucao direta, dependencias instalaveis fora de `conectores/<nome>/` ou `web-api/`, segredos reais e `testeSandbox` ausente/invalido.
+Envie somente pacotes aprovados pelo `./validar-conector`. O validador local rejeita links simbolicos, caminhos inseguros, handler fora de `conectores/<nome>/handlers/`, handler sem execucao direta, mensagem de teste fora de `conectores/<nome>/testes/mensagem-exemplo.json`, dependencias instalaveis fora de `conectores/<nome>/`, `siscconectores/` ou destino final `web-api/`, segredos reais e `testeSandbox` ausente/invalido.

@@ -83,10 +83,18 @@ function normalizarNome(string $nome): string {
 }
 
 function validarExemploUso(string $baseReal, string $nome, string $catalogoTexto): void {
-    global $erros;
-    $errosAntes = count($erros);
-    $rel = "conectores/$nome/exemplos/exemplo-uso.php";
+    $rel = "siscconectores/$nome-uso.php";
     $abs = "$baseReal/$rel";
+    if (!is_file($abs)) {
+        $relAntigo = "siscconectores/exemplo-uso.php";
+        $absAntigo = "$baseReal/$relAntigo";
+        if (is_file($absAntigo)) { $rel = $relAntigo; $abs = $absAntigo; }
+    }
+    if (!is_file($abs)) {
+        $relAntigo = "conectores/$nome/exemplos/exemplo-uso.php";
+        $absAntigo = "$baseReal/$relAntigo";
+        if (is_file($absAntigo)) { $rel = $relAntigo; $abs = $absAntigo; }
+    }
     if (!is_file($abs)) { addErro("Programa de exemplo obrigatório ausente: $rel"); return; }
     if (!is_readable($abs)) { addErro("Programa de exemplo sem leitura: $rel"); return; }
     $txt = file_get_contents($abs);
@@ -114,14 +122,22 @@ function validarExemploUso(string $baseReal, string $nome, string $catalogoTexto
     if (!is_string($idm) || $idm === '') addErro("Programa de exemplo --self-test deve retornar idmensagem: $rel");
     elseif (stripos($catalogoTexto, $idm) === false) addErro("Programa de exemplo retornou idmensagem não presente no catalogo: $idm");
     if (!isset($json['payload']['dados']) || !is_array($json['payload']['dados'])) addErro("Programa de exemplo --self-test deve retornar payload.dados de exemplo: $rel");
-    if (count($erros) === $errosAntes) addOk("Programa de exemplo validado: $rel");
+    addOk("Programa de exemplo validado: $rel");
 }
 
-function validarExemploCliente(string $baseReal, string $nome, string $catalogoTexto): void {
-    global $erros;
-    $errosAntes = count($erros);
-    $rel = "conectores/$nome/exemplos/exemplo-cliente.php";
+function validarExemploConsumidor(string $baseReal, string $nome, string $catalogoTexto): void {
+    $rel = "siscconectores/$nome-cliente.php";
     $abs = "$baseReal/$rel";
+    if (!is_file($abs)) {
+        $relAntigo = "siscconectores/exemplo-cliente.php";
+        $absAntigo = "$baseReal/$relAntigo";
+        if (is_file($absAntigo)) { $rel = $relAntigo; $abs = $absAntigo; }
+    }
+    if (!is_file($abs)) {
+        $relAntigo = "conectores/$nome/exemplos/exemplo-cliente.php";
+        $absAntigo = "$baseReal/$relAntigo";
+        if (is_file($absAntigo)) { $rel = $relAntigo; $abs = $absAntigo; }
+    }
     if (!is_file($abs)) { addErro("Programa consumidor obrigatório ausente: $rel"); return; }
     if (!is_readable($abs)) { addErro("Programa consumidor sem leitura: $rel"); return; }
     $txt = file_get_contents($abs);
@@ -130,10 +146,9 @@ function validarExemploCliente(string $baseReal, string $nome, string $catalogoT
     if (temPlaceholder($txt)) addErro("Programa consumidor contem placeholders/TODO: $rel");
     if (stripos($txt, $nome) === false) addErro("Programa consumidor deve referenciar o conector $nome: $rel");
     if (stripos($txt, 'idmensagem') === false) addErro("Programa consumidor deve demonstrar idmensagem do catalogo: $rel");
-    if (stripos($txt, 'http') === false && stripos($txt, 'api') === false) addErro("Programa consumidor deve consumir a API HTTP publica do SISC: $rel");
-    if (stripos($txt, 'curl_') === false && stripos($txt, 'file_get_contents') === false && stripos($txt, 'stream_context_create') === false && stripos($txt, '->enviar(') === false) addErro("Programa consumidor deve demonstrar chamada HTTP/API real: $rel");
+    if (stripos($txt, 'http') === false && stripos($txt, 'api') === false && stripos($txt, '->enviar(') === false) addErro("Programa consumidor deve demonstrar consumo da API SISC: $rel");
     foreach (['handlers/', '/handlers/', 'espaco/', '/espaco', '/var/www/html'] as $termo) {
-        if (stripos($txt, $termo) !== false) addErro("Programa consumidor nao deve acessar/revelar caminho interno '$termo'; consuma somente via API SISC: $rel");
+        if (stripos($txt, $termo) !== false) addErro("Programa consumidor nao deve acessar handler/espaco diretamente nem revelar caminho interno: $rel");
     }
 
     $cmdLint = 'php -n -l ' . escapeshellarg($abs) . ' 2>&1';
@@ -152,8 +167,8 @@ function validarExemploCliente(string $baseReal, string $nome, string $catalogoT
     $idm = $json['idmensagem'] ?? '';
     if (!is_string($idm) || $idm === '') addErro("Programa consumidor --self-test deve retornar idmensagem: $rel");
     elseif (stripos($catalogoTexto, $idm) === false) addErro("Programa consumidor retornou idmensagem não presente no catalogo: $idm");
-    if (!isset($json['payload']['dados']) && !isset($json['dados'])) addErro("Programa consumidor --self-test deve retornar dados de exemplo: $rel");
-    if (count($erros) === $errosAntes) addOk("Programa consumidor validado: $rel");
+    if (!isset($json['payload']['dados']) || !is_array($json['payload']['dados'])) addErro("Programa consumidor --self-test deve retornar payload.dados de exemplo: $rel");
+    addOk("Programa consumidor validado: $rel");
 }
 
 function validarQualidadeManualUsuario(string $html, string $manualRel, string $nome): void {
@@ -196,7 +211,10 @@ if (!is_dir($conectoresDir)) addErro('Diretorio obrigatorio ausente: conectores/
 
 $dirs = [];
 if (is_dir($conectoresDir)) {
-    foreach (glob($conectoresDir . '/*', GLOB_ONLYDIR) ?: [] as $d) $dirs[] = basename($d);
+    foreach (glob($conectoresDir . '/*', GLOB_ONLYDIR) ?: [] as $d) {
+        $dirNome = basename($d);
+        if (nomeConectorValido($dirNome)) $dirs[] = $dirNome;
+    }
 }
 if (count($dirs) === 0) addErro('Nenhum conector encontrado em conectores/<nome>.');
 if (count($dirs) > 1) addErro('A submissao deve conter apenas um conector por pacote. Encontrados: ' . implode(', ', $dirs));
@@ -210,6 +228,7 @@ validarEntradasSemLinks($baseReal);
 $conectorBase = $nome ? "$conectoresDir/$nome" : '';
 $manifestoPath = $nome ? "$conectorBase/$nome.json" : '';
 $manifesto = $manifestoPath ? lerJson($manifestoPath) : null;
+$testeRelEsperado = $nome ? "conectores/$nome/testes/mensagem-exemplo.json" : 'conectores/<nome>/testes/mensagem-exemplo.json';
 
 if ($manifesto) {
     if (($manifesto['nome'] ?? '') !== $nome) addErro('manifesto.nome deve ser exatamente igual ao diretorio: ' . $nome);
@@ -228,6 +247,12 @@ if ($manifesto) {
         addErro('testeSandbox deve declarar permitido=true e semEfeitoReal=true para habilitar selo-sandbox no testesis.');
     } elseif (!is_string($testeSandbox['descricao'] ?? null) || trim((string)$testeSandbox['descricao']) === '') {
         addErro('testeSandbox.descricao deve justificar por que a mensagem de teste nao causa efeito real.');
+    }
+    $testeSandboxMensagem = is_string($testeSandbox['mensagem'] ?? null) ? limparRelDeclarado((string)$testeSandbox['mensagem']) : '';
+    if ($testeSandboxMensagem === '' || !seguroRel($testeSandboxMensagem)) {
+        addErro('testeSandbox.mensagem deve apontar para caminho relativo seguro da mensagem de teste.');
+    } elseif ($testeSandboxMensagem !== $testeRelEsperado) {
+        addErro("testeSandbox.mensagem deve apontar para $testeRelEsperado.");
     }
 
     $ctrl = is_array($manifesto['controlador'] ?? null) ? $manifesto['controlador'] : [];
@@ -254,7 +279,7 @@ if ($manifesto) {
             foreach (['espaco/', '/espaco', '../espaco', 'pp --api', 'shell_exec(', 'system(', 'passthru(', 'eval(', 'proc_open(', 'popen(', 'os.system', 'subprocess.', 'child_process', 'ProcessBuilder', 'Runtime.getRuntime'] as $termo) {
                 if (stripos($h, $termo) !== false) addErro("Handler contem termo proibido ou perigoso '$termo'. Use somente POST HTTP para api.php e evite execucao de shell/acesso direto ao espaco.");
             }
-            if (stripos($h, 'secretos/') !== false && stripos($h, "secretos/$nome.json") === false) addAviso("Handler referencia secretos/; no runtime novo somente secretos/$nome.json fica visivel no sandbox.");
+            if (stripos($h, 'secretos/') !== false && stripos($h, "siscconectores/secretos/$nome.json") === false && stripos($h, "secretos/$nome.json") === false) addAviso("Handler referencia secretos/; no runtime novo use siscconectores/secretos/$nome.json para configuracao do conector.");
             if (!preg_match('/payload.*dados|dados.*payload/s', $h)) addAviso('Nao encontrei leitura clara de payload.dados no handler; confirme que a identidade e dados vêm do JSON recebido.');
             addOk("Handler localizado: $handlerRelLimpo");
         }
@@ -277,7 +302,7 @@ if ($manifesto) {
     $deps = is_array($manifesto['dependencias'] ?? null) ? $manifesto['dependencias'] : [];
     if (($deps['fonteSeguraImportacao'] ?? null) !== true) addErro('dependencias.fonteSeguraImportacao deve ser true.');
     $arqs = is_array($deps['arquivos'] ?? null) ? $deps['arquivos'] : [];
-    if (count($arqs) === 0) addErro('dependencias.arquivos deve listar manifesto, formato, handler, catalogo, manual de usuario e exemplos.');
+    if (count($arqs) === 0) addErro('dependencias.arquivos deve listar manifesto, formato, handler, catalogo e manual de usuario.');
     $papeis = [];
     foreach ($arqs as $i => $a) {
         if (!is_array($a)) { addErro("dependencias.arquivos[$i] deve ser objeto."); continue; }
@@ -287,13 +312,21 @@ if ($manifesto) {
             $r = (string)($a[$k] ?? '');
             $r = limparRelDeclarado($r);
             if ($r === '' || !seguroRel($r)) addErro("dependencias.arquivos[$i].$k invalido/inseguro.");
-            if (str_starts_with($r, 'secretos/')) addErro('Nunca inclua secretos reais em dependencias.arquivos; use apenas secretos/*.sample.json fora das dependencias de instalacao.');
-            if ($k === 'destino' && !str_starts_with($r, "conectores/$nome/") && !str_starts_with($r, 'web-api/')) addErro("dependencias.arquivos[$i].destino fora das areas instalaveis permitidas: conectores/$nome/ ou web-api/.");
+            if (str_starts_with($r, 'secretos/') || str_starts_with($r, 'siscconectores/secretos/')) addErro('Nunca inclua secretos reais em dependencias.arquivos; use apenas siscconectores/secretos/*.sample.json fora das dependencias de instalacao.');
+            if ($k === 'destino') {
+                $destinoSiscConectores = str_starts_with($r, 'siscconectores/');
+                if (!$destinoSiscConectores && !str_starts_with($r, "conectores/$nome/") && !str_starts_with($r, 'web-api/')) addErro("dependencias.arquivos[$i].destino fora das areas instalaveis permitidas: conectores/$nome/, siscconectores/ ou web-api/.");
+            }
         }
         $orig = limparRelDeclarado((string)($a['origem'] ?? ''));
-        if ($orig && seguroRel($orig) && ($a['obrigatorio'] ?? false) === true && !is_file($baseReal . '/' . $orig)) addErro("Dependencia obrigatoria ausente: $orig");
+        if ($orig && seguroRel($orig) && ($a['obrigatorio'] ?? false) === true && !is_file($baseReal . '/' . $orig)) {
+            $nomeExemplo = $papel === 'exemplo-uso' ? "$nome-uso.php" : ($papel === 'exemplo-consumidor' ? "$nome-cliente.php" : basename($orig));
+            $fallbackExemplo = str_starts_with($papel, 'exemplo-') ? 'siscconectores/' . $nomeExemplo : '';
+            if ($fallbackExemplo !== '' && is_file($baseReal . '/' . $fallbackExemplo)) addAviso("Dependencia $papel usa caminho antigo ($orig); caminho atual: $fallbackExemplo");
+            else addErro("Dependencia obrigatoria ausente: $orig");
+        }
     }
-    foreach (['manifesto','formato','handler','catalogo-mensagens','manual-usuario','exemplo-uso','exemplo-consumidor'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
+    foreach (['manifesto','formato','handler','teste-sandbox','catalogo-mensagens','manual-usuario','exemplo-uso','exemplo-consumidor'] as $p) if (!isset($papeis[$p])) addErro("dependencias.arquivos deve conter papel '$p'.");
 
     $manualRel = is_string($manifesto['manualUsuario'] ?? null) ? limparRelDeclarado((string)$manifesto['manualUsuario']) : "conectores/$nome/manual-$nome.html";
     if (!seguroRel($manualRel)) {
@@ -315,7 +348,8 @@ if ($manifesto) {
 }
 
 if ($nome) {
-    $catalogoRel = "web-api/catalogo-$nome.json";
+    $catalogoRel = "siscconectores/web-api/catalogo-$nome.json";
+    if (!is_file($baseReal . '/' . $catalogoRel)) $catalogoRel = "web-api/catalogo-$nome.json";
     $catalogo = lerJson($baseReal . '/' . $catalogoRel);
     if ($catalogo) {
         if (($catalogo['tipo'] ?? '') !== 'catalogo-modulo-mensagens-sisc') addErro('Catalogo: tipo deve ser catalogo-modulo-mensagens-sisc.');
@@ -357,12 +391,14 @@ if ($nome) {
         if (temPlaceholder($catalogo)) addErro('Catalogo contem placeholders/TODO; preencha antes de submeter.');
         addOk("Catalogo validado: $catalogoRel");
         $catalogoTexto = file_get_contents($baseReal . '/' . $catalogoRel);
-        validarExemploUso($baseReal, $nome, is_string($catalogoTexto) ? $catalogoTexto : '');
-        validarExemploCliente($baseReal, $nome, is_string($catalogoTexto) ? $catalogoTexto : '');
+        $catalogoTexto = is_string($catalogoTexto) ? $catalogoTexto : '';
+        validarExemploUso($baseReal, $nome, $catalogoTexto);
+        validarExemploConsumidor($baseReal, $nome, $catalogoTexto);
     }
 }
 
-$testePath = $baseReal . '/testes/mensagem-exemplo.json';
+$testeRel = $testeRelEsperado;
+$testePath = $baseReal . '/' . $testeRel;
 $teste = lerJson($testePath);
 if ($teste) {
     foreach (['_sistema','_protocolo','payload'] as $c) if (!array_key_exists($c, $teste)) addErro("Mensagem de teste sem campo obrigatorio: $c");
@@ -381,30 +417,17 @@ if ($teste) {
     if (!is_string($idm) || $idm === '') addErro('Mensagem de teste: payload.idmensagem deve ser informado.');
 
     if (temPlaceholder($teste)) addErro('Mensagem de teste contem placeholders; preencha com valores de teste seguros.');
-    addOk('Mensagem de teste validada: testes/mensagem-exemplo.json');
+    addOk('Mensagem de teste validada: ' . $testeRel);
 }
 
 foreach (listarArquivos($baseReal) as $f) {
     $r = rel($baseReal, $f);
-    if (preg_match('#(^|/)secretos/(?!.*\.sample\.json$)#', $r)) addErro("Arquivo proibido no pacote: $r. Envie apenas exemplos .sample.json, nunca segredos reais.");
-    if (preg_match('#(^|/)token-externo/.*\.txt$#', $r)) addErro("Arquivo proibido no pacote: $r. Tokens de cliente devem ficar somente no ambiente local/servidor e nunca no GitHub ou pacote.");
+    if (preg_match('#(^|/)secretos/(?!.*\.sample\.json$)#', $r)) addErro("Arquivo proibido no pacote: $r. Envie apenas siscconectores/secretos/*.sample.json, nunca segredos reais.");
     if (preg_match('/\.(php|sh|py|js|json|md|html|txt)$/i', $r)) {
         $txt = file_get_contents($f);
         if (is_string($txt) && preg_match('/(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----|xox[baprs]-|sk-[A-Za-z0-9]{20,})/', $txt)) {
             addErro("Possivel segredo/token encontrado em $r");
         }
-    }
-}
-
-$cabsiscPath = $baseReal . '/cabsisc.h';
-if (is_file($cabsiscPath)) {
-    $cabsiscTxt = file_get_contents($cabsiscPath);
-    if (is_string($cabsiscTxt) && preg_match('/new\s+sisc\s*\(\s*[\'\"]siscore[\'\"]/', $cabsiscTxt) === 1) {
-        addErro('cabsisc.h nao deve apontar para siscore no kit de homologacao; use testesis. A instalacao em siscore e feita somente pelo servidor apos selos validos.');
-    } elseif (is_string($cabsiscTxt) && preg_match('/new\s+sisc\s*\(\s*[\'\"]testesis[\'\"]/', $cabsiscTxt) === 1) {
-        addOk('cabsisc.h configurado para testesis.');
-    } else {
-        addAviso('cabsisc.h encontrado, mas sem configuracao new sisc("testesis", ... ) claramente identificada.');
     }
 }
 

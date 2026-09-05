@@ -50,21 +50,16 @@
     <nav class="tree hidden" data-tree="arquivos">
       <div class="tree-row folder">pacote-do-conector/</div>
       <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-&lt;nome&gt;/</div>
-      <div class="tree-row" data-name="manifesto"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="manifesto">conector-&lt;nome&gt;.json</button></div>
-      <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
-      <div class="tree-row" data-name="formato"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="formato">formato-conector-&lt;nome&gt;.json</button></div>
-      <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
-      <div class="tree-row" data-name="handler"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="handler">executavel-do-handler</button></div>
-      <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-      <div class="tree-row" data-name="exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="manualUsuario">exemplo-uso.php</button></div>
-      <div class="tree-row" data-name="exemplo cliente consumidor"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="manualUsuario">exemplo-cliente.php</button></div>
-      <div class="tree-row" data-name="manual usuario"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="manualUsuario">manual-conector-&lt;nome&gt;.html</button></div>
-      <div class="tree-row" data-name="catalogo web api"><span class="tree-prefix">├──</span><button class="filebtn" data-target="catalogo">web-api/catalogo-conector-&lt;nome&gt;.json</button></div>
-      <div class="tree-row" data-name="teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="teste">testes/mensagem-exemplo.json</button></div>
-      <div class="tree-row" data-name="segredos sample"><span class="tree-prefix">├──</span><button class="filebtn" data-target="segredos">secretos/conector-&lt;nome&gt;.sample.json</button></div>
-      <div class="tree-row" data-name="config cliente cabsisc"><span class="tree-prefix">├──</span><button class="filebtn" data-target="manualUsuario">cabsisc.h</button></div>
-      <div class="tree-row" data-name="biblioteca cliente"><span class="tree-prefix">├──</span><button class="filebtn" data-target="manualUsuario">sisc-api-cliente.php</button></div>
-      <div class="tree-row" data-name="token externo gitignore"><span class="tree-prefix">└──</span><button class="filebtn" data-target="seguranca">token-externo/.gitignore</button></div>
+      <div class="tree-row" data-name="manifesto"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="manifesto">manifesto.json</button></div>
+      <div class="tree-row" data-name="formato"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="formato">formato.json</button></div>
+      <div class="tree-row" data-name="handler"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="handler">handler</button></div>
+      <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+      <div class="tree-row" data-name="teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="teste">mensagem-de-teste.json</button></div>
+      <div class="tree-row" data-name="manual usuario"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="manualUsuario">manual-do-conector.html</button></div>
+      <div class="tree-row folder"><span class="tree-prefix">├──</span> siscconectores/web-api/</div>
+      <div class="tree-row" data-name="catalogo"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="catalogo">catalogo-de-mensagens.json</button></div>
+      <div class="tree-row folder"><span class="tree-prefix">└──</span> siscconectores/secretos/</div>
+      <div class="tree-row" data-name="segredos sample"><span class="tree-prefix">    └──</span><button class="filebtn" data-target="segredos">conector-&lt;nome&gt;.sample.json</button></div>
     </nav>
 
     <nav class="tree hidden" data-tree="execucao">
@@ -92,83 +87,73 @@
         <option value="ocr">conector-documentos-ocr — documentos/OCR</option>
       </select>
       <div data-example-tree="clima">
-        <div class="tree-row folder">exemplos/conector-clima/</div>
+        <div class="tree-row folder">siscconectores/conector-clima/</div>
         <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-clima/</div>
         <div class="tree-row" data-name="conector-clima manifesto json"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="ExClimaManifesto">conector-clima.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
         <div class="tree-row" data-name="conector-clima formato payload"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExClimaFormato">formato-conector-clima.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
         <div class="tree-row" data-name="conector-clima handler executavel"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExClimaHandler">conector-clima</button></div>
-        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-        <div class="tree-row" data-name="conector-clima exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="ExClimaManual">exemplo-uso.php</button></div>
-        <div class="tree-row" data-name="conector-clima exemplo cliente"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExClimaManual">exemplo-cliente.php</button></div>
+        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+        <div class="tree-row" data-name="conector-clima mensagem teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExClimaTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-clima manual usuario html"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="ExClimaManual">manual-conector-clima.html</button></div>
         <div class="tree-row" data-name="conector-clima catalogo mensagens"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExClimaCatalogo">catalogo-conector-clima.json</button></div>
-        <div class="tree-row" data-name="conector-clima mensagem teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExClimaTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-clima segredos sample"><span class="tree-prefix">└──</span><button class="filebtn" data-target="ExClimaSegredos">conector-clima.sample.json</button></div>
       </div>
       <div data-example-tree="crm" class="hidden">
-        <div class="tree-row folder">exemplos/conector-crm-leads/</div>
+        <div class="tree-row folder">siscconectores/conector-crm-leads/</div>
         <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-crm-leads/</div>
         <div class="tree-row" data-name="conector-crm-leads manifesto json"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="ExCrmManifesto">conector-crm-leads.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
         <div class="tree-row" data-name="conector-crm-leads formato payload"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExCrmFormato">formato-conector-crm-leads.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
         <div class="tree-row" data-name="conector-crm-leads handler executavel"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExCrmHandler">conector-crm-leads</button></div>
-        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-        <div class="tree-row" data-name="conector-crm-leads exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="ExCrmManual">exemplo-uso.php</button></div>
-        <div class="tree-row" data-name="conector-crm-leads exemplo cliente"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExCrmManual">exemplo-cliente.php</button></div>
+        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+        <div class="tree-row" data-name="conector-crm-leads mensagem teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExCrmTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-crm-leads manual usuario html"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="ExCrmManual">manual-conector-crm-leads.html</button></div>
         <div class="tree-row" data-name="conector-crm-leads catalogo mensagens"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExCrmCatalogo">catalogo-conector-crm-leads.json</button></div>
-        <div class="tree-row" data-name="conector-crm-leads mensagem teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExCrmTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-crm-leads segredos sample"><span class="tree-prefix">└──</span><button class="filebtn" data-target="ExCrmSegredos">conector-crm-leads.sample.json</button></div>
       </div>
       <div data-example-tree="pagamentos" class="hidden">
-        <div class="tree-row folder">exemplos/conector-pagamentos/</div>
+        <div class="tree-row folder">siscconectores/conector-pagamentos/</div>
         <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-pagamentos/</div>
         <div class="tree-row" data-name="conector-pagamentos manifesto json"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="ExPagamentosManifesto">conector-pagamentos.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
         <div class="tree-row" data-name="conector-pagamentos formato payload"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExPagamentosFormato">formato-conector-pagamentos.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
         <div class="tree-row" data-name="conector-pagamentos handler executavel"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExPagamentosHandler">conector-pagamentos</button></div>
-        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-        <div class="tree-row" data-name="conector-pagamentos exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="ExPagamentosManual">exemplo-uso.php</button></div>
-        <div class="tree-row" data-name="conector-pagamentos exemplo cliente"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExPagamentosManual">exemplo-cliente.php</button></div>
+        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+        <div class="tree-row" data-name="conector-pagamentos mensagem teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExPagamentosTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-pagamentos manual usuario html"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="ExPagamentosManual">manual-conector-pagamentos.html</button></div>
         <div class="tree-row" data-name="conector-pagamentos catalogo mensagens"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExPagamentosCatalogo">catalogo-conector-pagamentos.json</button></div>
-        <div class="tree-row" data-name="conector-pagamentos mensagem teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExPagamentosTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-pagamentos segredos sample"><span class="tree-prefix">└──</span><button class="filebtn" data-target="ExPagamentosSegredos">conector-pagamentos.sample.json</button></div>
       </div>
       <div data-example-tree="estoque" class="hidden">
-        <div class="tree-row folder">exemplos/conector-estoque/</div>
+        <div class="tree-row folder">siscconectores/conector-estoque/</div>
         <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-estoque/</div>
         <div class="tree-row" data-name="conector-estoque manifesto json"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="ExEstoqueManifesto">conector-estoque.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
         <div class="tree-row" data-name="conector-estoque formato payload"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExEstoqueFormato">formato-conector-estoque.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
         <div class="tree-row" data-name="conector-estoque handler executavel"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExEstoqueHandler">conector-estoque</button></div>
-        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-        <div class="tree-row" data-name="conector-estoque exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="ExEstoqueManual">exemplo-uso.php</button></div>
-        <div class="tree-row" data-name="conector-estoque exemplo cliente"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExEstoqueManual">exemplo-cliente.php</button></div>
+        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+        <div class="tree-row" data-name="conector-estoque mensagem teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExEstoqueTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-estoque manual usuario html"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="ExEstoqueManual">manual-conector-estoque.html</button></div>
         <div class="tree-row" data-name="conector-estoque catalogo mensagens"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExEstoqueCatalogo">catalogo-conector-estoque.json</button></div>
-        <div class="tree-row" data-name="conector-estoque mensagem teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExEstoqueTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-estoque segredos sample"><span class="tree-prefix">└──</span><button class="filebtn" data-target="ExEstoqueSegredos">conector-estoque.sample.json</button></div>
       </div>
       <div data-example-tree="ocr" class="hidden">
-        <div class="tree-row folder">exemplos/conector-documentos-ocr/</div>
+        <div class="tree-row folder">siscconectores/conector-documentos-ocr/</div>
         <div class="tree-row folder"><span class="tree-prefix">├──</span> conectores/conector-documentos-ocr/</div>
         <div class="tree-row" data-name="conector-documentos-ocr manifesto json"><span class="tree-prefix">│   ├──</span><button class="filebtn" data-target="ExOcrManifesto">conector-documentos-ocr.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> formatos/</div>
         <div class="tree-row" data-name="conector-documentos-ocr formato payload"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExOcrFormato">formato-conector-documentos-ocr.json</button></div>
         <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> handlers/</div>
         <div class="tree-row" data-name="conector-documentos-ocr handler executavel"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExOcrHandler">conector-documentos-ocr</button></div>
-        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> exemplos/</div>
-        <div class="tree-row" data-name="conector-documentos-ocr exemplo uso"><span class="tree-prefix">│   │   ├──</span><button class="filebtn" data-target="ExOcrManual">exemplo-uso.php</button></div>
-        <div class="tree-row" data-name="conector-documentos-ocr exemplo cliente"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExOcrManual">exemplo-cliente.php</button></div>
+        <div class="tree-row folder"><span class="tree-prefix">│   ├──</span> testes/</div>
+        <div class="tree-row" data-name="conector-documentos-ocr mensagem teste"><span class="tree-prefix">│   │   └──</span><button class="filebtn" data-target="ExOcrTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-documentos-ocr manual usuario html"><span class="tree-prefix">│   └──</span><button class="filebtn" data-target="ExOcrManual">manual-conector-documentos-ocr.html</button></div>
         <div class="tree-row" data-name="conector-documentos-ocr catalogo mensagens"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExOcrCatalogo">catalogo-conector-documentos-ocr.json</button></div>
-        <div class="tree-row" data-name="conector-documentos-ocr mensagem teste"><span class="tree-prefix">├──</span><button class="filebtn" data-target="ExOcrTeste">mensagem-exemplo.json</button></div>
         <div class="tree-row" data-name="conector-documentos-ocr segredos sample"><span class="tree-prefix">└──</span><button class="filebtn" data-target="ExOcrSegredos">conector-documentos-ocr.sample.json</button></div>
       </div>
     </nav>
@@ -216,8 +201,8 @@
       <p class="muted">Siga esta ordem para evitar retrabalho.</p>
       <h3>Roteiro de construção</h3>
       <p><b>No trabalho real, execute mentalmente esta sequência:</b></p>
-      <pre><code>1. Copie o conector-modelo
-2. Renomeie para conector-&lt;nome-do-servico&gt;
+      <pre><code>1. Crie a pasta conectores/conector-&lt;nome-do-servico&gt;
+2. Crie os arquivos em siscconectores/ com o prefixo do conector
 3. Atualize manifesto, formato e catálogo
 4. Implemente o handler
 5. Crie uma mensagem de teste segura
@@ -255,17 +240,16 @@
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
+    "executavel": "valor-fixo-fornecido-pelo-kit",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-&lt;seu-servico&gt;/handlers/&lt;executavel&gt;"
   },
   "formatoConector": "conectores/conector-&lt;seu-servico&gt;/formatos/formato-conector-&lt;seu-servico&gt;.json",
   "testeSandbox": {
     "permitido": true,
     "semEfeitoReal": true,
-    "mensagem": "testes/mensagem-exemplo.json",
+    "mensagem": "conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json",
     "descricao": "Explique por que esta mensagem de teste não envia dados reais nem altera produção."
   },
   "dependencias": {
@@ -274,10 +258,7 @@
       {"papel": "manifesto", "origem": "conectores/conector-&lt;seu-servico&gt;/conector-&lt;seu-servico&gt;.json", "destino": "conectores/conector-&lt;seu-servico&gt;/conector-&lt;seu-servico&gt;.json", "obrigatorio": true},
       {"papel": "formato", "origem": "conectores/conector-&lt;seu-servico&gt;/formatos/formato-conector-&lt;seu-servico&gt;.json", "destino": "conectores/conector-&lt;seu-servico&gt;/formatos/formato-conector-&lt;seu-servico&gt;.json", "obrigatorio": true},
       {"papel": "handler", "origem": "conectores/conector-&lt;seu-servico&gt;/handlers/&lt;executavel&gt;", "destino": "conectores/conector-&lt;seu-servico&gt;/handlers/&lt;executavel&gt;", "obrigatorio": true},
-      {"papel": "catalogo-mensagens", "origem": "web-api/catalogo-conector-&lt;seu-servico&gt;.json", "destino": "web-api/catalogo-conector-&lt;seu-servico&gt;.json", "obrigatorio": true},
-      {"papel": "manual-usuario", "origem": "conectores/conector-&lt;seu-servico&gt;/manual-conector-&lt;seu-servico&gt;.html", "destino": "conectores/conector-&lt;seu-servico&gt;/manual-conector-&lt;seu-servico&gt;.html", "obrigatorio": true},
-      {"papel": "exemplo-uso", "origem": "conectores/conector-&lt;seu-servico&gt;/exemplos/exemplo-uso.php", "destino": "conectores/conector-&lt;seu-servico&gt;/exemplos/exemplo-uso.php", "obrigatorio": true},
-      {"papel": "exemplo-consumidor", "origem": "conectores/conector-&lt;seu-servico&gt;/exemplos/exemplo-cliente.php", "destino": "conectores/conector-&lt;seu-servico&gt;/exemplos/exemplo-cliente.php", "obrigatorio": true}
+      {"papel": "teste-sandbox", "origem": "conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json", "destino": "conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json", "obrigatorio": true}
     ]
   }
 }</code></pre>
@@ -285,7 +266,7 @@
     </article>
 
     <article id="formato" class="doc">
-      <span class="path">conectores/conector-&lt;nome&gt;/formatos/formato-conector-&lt;nome&gt;.json</span>
+      <span class="path">formatos/formato-conector-&lt;nome&gt;.json</span>
       <h2>Formato do payload</h2>
       <p class="muted">O formato é o contrato entre quem chama e quem executa. Sem ele, cada pessoa imagina um payload diferente.</p>
       <h3>Modelo de formato</h3>
@@ -325,7 +306,7 @@
     </article>
 
     <article id="handler" class="doc">
-      <span class="path">conectores/conector-&lt;nome&gt;/handlers/&lt;executavel&gt;</span>
+      <span class="path">handlers/&lt;executavel&gt;</span>
       <h2>Handler</h2>
       <p class="muted">O handler é o programa executável. Ele recebe o caminho de um arquivo JSON de mensagem, valida tudo e executa a integração.</p>
       <h3>Esqueleto mínimo em pseudocódigo</h3>
@@ -366,7 +347,7 @@ sys.exit(0)</code></pre>
     </article>
 
     <article id="manualUsuario" class="doc">
-      <span class="path">conectores/conector-&lt;nome&gt;/manual-conector-&lt;nome&gt;.html</span>
+      <span class="path">manual-do-conector.html</span>
       <h2>Manual do seu conector</h2>
       <p class="muted">Cada conector deve ter seu próprio manual para quem vai consumi-lo depois de instalado. Escreva como programador do conector: o leitor precisa conhecer somente o conector, o destino SISC, o <code>idmensagem</code> no catalogo e o contrato de <code>payload.dados</code>.</p>
       <div class="callout warn"><b>Não documente bastidor do servidor:</b> o manual do conector não deve citar scripts operacionais, comandos internos de aprovação, caminhos administrativos ou detalhes de instalação do servidor. Essas informações pertencem ao operador SISC, não ao consumidor do conector.</div>
@@ -394,30 +375,20 @@ sys.exit(0)</code></pre>
         <li>Ao menos três blocos de exemplo em <code>&lt;pre&gt;&lt;code&gt;</code>.</li>
         <li>Identificação explícita de <code>conector-&lt;nome&gt;</code>, <code>conector__conector-&lt;nome&gt;</code>, <code>catalogo</code> e <code>idmensagem</code>.</li>
         <li>Explicação de <code>payload.dados</code>, saída esperada, credenciais, erros comuns, limites, segurança de uso e <code>idempotencia</code>.</li>
-        <li>Programas de exemplo em <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php</code> e <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php</code>, documentados no manual, demonstrando uma chamada realista do recurso do conector.</li>
+        <li>Programa de exemplo em <code>siscconectores/conector-&lt;nome&gt;-uso.php</code>, documentado no manual, demonstrando uma chamada realista do recurso do conector.</li>
         <li>Nenhum token, senha, chave real, caminho administrativo ou instrução que dependa de detalhes internos do servidor.</li>
       </ul>
-      <h3>Programas de exemplo obrigatórios</h3>
-      <p>Além do manual, entregue os dois programas PHP em <code>conectores/conector-&lt;nome&gt;/exemplos/</code>. O <code>exemplo-uso.php</code> monta a mensagem/payload com o <code>idmensagem</code> do catalogo e os campos reais de <code>payload.dados</code>. O <code>exemplo-cliente.php</code> demonstra consumo real pela API SISC usando <code>cabsisc.h</code> e <code>sisc-api-cliente.php</code>.</p>
-      <pre><code>php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php
-php conectores/conector-&lt;nome&gt;/exemplos/exemplo-uso.php --self-test
-php conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php "mensagem de teste"
-php conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php --self-test</code></pre>
-      <p>O modo <code>--self-test</code> deve imprimir JSON válido com <code>sucesso:true</code>, <code>conector</code>, <code>idmensagem</code>, <code>payload.dados</code> ou <code>dados</code> de exemplo e <code>saidaEsperada</code>. O validador executa esse modo nos dois exemplos e confere se eles produzem o que declararam produzir.</p>
-      <h3>Exemplo de consumo real com cabsisc.h</h3>
-      <p>Use o padrão <code>conectores/conector-&lt;nome&gt;/exemplos/exemplo-cliente.php</code>. Esse arquivo deve carregar <code>cabsisc.h</code> da raiz do kit com <code>require dirname(__DIR__, 3) . '/cabsisc.h';</code>; <code>cabsisc.h</code> carrega a biblioteca genérica <code>sisc-api-cliente.php</code> e define sistema/login. Durante a homologação do programador, <code>cabsisc.h</code> deve apontar para <code>testesis</code>. Para trocar conector, sistema de teste ou login, ajuste <code>cabsisc.h</code>, <code>token-externo/&lt;login&gt;.txt</code> e os dados do exemplo; não edite <code>sisc-api-cliente.php</code>. O alvo <code>siscore</code> é produção e só deve ser usado pelo fluxo do servidor depois dos selos válidos.</p>
-      <pre><code>require dirname(__DIR__, 3) . '/cabsisc.h';
-
-// cabsisc.h: $sisc = new sisc('testesis', '&lt;login&gt;');
-$resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
-  'operacao' =&gt; 'executar',
-  'campo' =&gt; 'valor de exemplo'
-], 'executar');</code></pre>
-      <div class="callout ok"><b>Como o programador sabe se está bom:</b> copie o nível de detalhamento do <code>conectores/conector-modelo/manual-conector-modelo.html</code>, adapte para seu serviço e rode <code>./validar-conector</code>. O validador reprova manual raso, genérico, sem exemplo validável ou com bastidor interno do servidor.</div>
+      <h3>Programa de exemplo obrigatório</h3>
+      <p>Além do manual, entregue programas PHP em <code>siscconectores/conector-&lt;nome&gt;-uso.php</code> e <code>siscconectores/conector-&lt;nome&gt;-cliente.php</code>. Arquivos auxiliares de cliente, como <code>cabsisc.h</code> e <code>sisc-api-cliente.php</code>, também devem ficar em <code>siscconectores/</code>. Tokens locais ficam em <code>token-sisc/&lt;login&gt;.txt</code>, fora do pacote, com uma linha por conector no formato <code>conector-&lt;nome&gt;~TOKEN</code>. O arquivo de uso deve montar a mensagem ou o payload com o <code>idmensagem</code> do catalogo e os campos reais de <code>payload.dados</code>.</p>
+      <pre><code>php siscconectores/conector-&lt;nome&gt;-uso.php
+php siscconectores/conector-&lt;nome&gt;-uso.php --self-test
+php siscconectores/conector-&lt;nome&gt;-cliente.php --self-test</code></pre>
+      <p>O modo <code>--self-test</code> deve imprimir JSON válido com <code>sucesso:true</code>, <code>conector</code>, <code>idmensagem</code>, <code>payload.dados</code> e <code>saidaEsperada</code>. O validador executa esse modo e confere se o exemplo produz o que declarou produzir.</p>
+      <div class="callout ok"><b>Como o programador sabe se está bom:</b> copie o nível de detalhamento do manual do conector de exemplo, adapte para seu serviço e rode <code>./validar-conector</code>. O validador reprova manual raso, genérico, sem exemplo validável ou com bastidor interno do servidor.</div>
     </article>
 
     <article id="catalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-&lt;nome&gt;.json</span>
+      <span class="path">siscconectores/web-api/catalogo-conector-&lt;nome&gt;.json</span>
       <h2>Catálogo de mensagens</h2>
       <p class="muted">O catálogo declara quais comandos seu conector aceita e como eles aparecem para integrações autorizadas.</p>
       <h3>Modelo de catálogo</h3>
@@ -447,7 +418,7 @@ $resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
     </article>
 
     <article id="teste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span>
+      <span class="path">conectores/conector-&lt;nome&gt;/testes/mensagem-exemplo.json</span>
       <h2>Mensagem de teste</h2>
       <p class="muted">A mensagem de teste prova que o handler consegue ler o envelope e encontrar os dados.</p>
       <h3>Modelo seguro de teste</h3>
@@ -477,7 +448,7 @@ $resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
     </article>
 
     <article id="segredos" class="doc">
-      <span class="path">secretos/conector-&lt;nome&gt;.sample.json</span>
+      <span class="path">siscconectores/secretos/conector-&lt;nome&gt;.sample.json</span>
       <h2>Segredos e configuração</h2>
       <p class="muted">O pacote comunitário pode conter somente exemplo de configuração. Segredo real nunca viaja no pacote.</p>
       <h3>Arquivo permitido no pacote</h3>
@@ -522,10 +493,10 @@ $resposta = $sisc-&gt;enviar('conector-&lt;nome&gt;.executar', [
       <p><b>No desenvolvimento real:</b></p>
       <pre><code># script com shebang
 chmod +x conectores/conector-&lt;seu-servico&gt;/handlers/&lt;handler.py&gt;
-./conectores/conector-&lt;seu-servico&gt;/handlers/&lt;handler.py&gt; testes/mensagem-exemplo.json
+./conectores/conector-&lt;seu-servico&gt;/handlers/&lt;handler.py&gt; conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json
 
 # binário compilado
-./conectores/conector-&lt;seu-servico&gt;/handlers/&lt;binario&gt; testes/mensagem-exemplo.json</code></pre>
+./conectores/conector-&lt;seu-servico&gt;/handlers/&lt;binario&gt; conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json</code></pre>
       <table><thead><tr><th>Linguagem</th><th>Cuidados</th></tr></thead><tbody><tr><td>Python/Node/PHP/Bash</td><td>Use shebang e documente dependências.</td></tr><tr><td>C/Go/Rust</td><td>Envie binário compatível ou instruções claras de compilação.</td></tr><tr><td>Qualquer linguagem</td><td>Valide JSON, trate timeout e não exponha segredos.</td></tr></tbody></table>
     </article>
 
@@ -567,7 +538,7 @@ chmod +x conectores/conector-&lt;seu-servico&gt;/handlers/&lt;handler.py&gt;
 [ ] link simbólico no pacote
 [ ] caminho absoluto da sua máquina
 [ ] caminho com .., ., // ou barra invertida
-[ ] dependência instalável fora de conectores/&lt;nome&gt;/ ou web-api/
+[ ] dependência instalável fora de conectores/&lt;nome&gt;/, siscconectores/ ou destino final web-api/
 [ ] escrita direta em área interna do sistema
 [ ] comando shell com entrada não sanitizada
 [ ] log imprimindo Authorization, senha ou token
@@ -601,11 +572,10 @@ chmod +x conectores/conector-&lt;seu-servico&gt;/handlers/&lt;executavel&gt;
 4. o formato existe e declara entrada e saída
 5. o catálogo existe e tem mensagem ativa
 6. o handler existe, não está vazio e é executável
-7. os exemplos exemplo-uso.php e exemplo-cliente.php existem e passam no --self-test
-8. a mensagem de teste existe e possui payload.dados
-9. o manual do conector existe e é HTML completo
-10. não há segredos reais evidentes no pacote
-11. não há caminhos absolutos ou comandos perigosos comuns</code></pre>
+7. a mensagem de teste existe e possui payload.dados
+8. o manual do conector existe e é HTML completo
+9. não há segredos reais evidentes no pacote
+10. não há caminhos absolutos ou comandos perigosos comuns</code></pre>
       <table><thead><tr><th>Área</th><th>Por que isso importa</th></tr></thead><tbody>
         <tr><td>Estrutura</td><td>Garante que outra pessoa consiga abrir o pacote e encontrar cada peça no lugar esperado.</td></tr>
         <tr><td>Manifesto</td><td>Confirma identidade, versão, tipo, dependências e handler declarado.</td></tr>
@@ -624,11 +594,9 @@ Conector: conector-&lt;seu-servico&gt;
 [OK] Formato validado
 [OK] Manual HTML validado
 [OK] Catalogo validado
-[OK] Programa de exemplo validado
-[OK] Programa consumidor validado
 [OK] Mensagem de teste validada
 
-Resumo: 7 OK, 0 aviso(s), 0 erro(s).
+Resumo: 5 OK, 0 aviso(s), 0 erro(s).
 Status: APROVADO PARA EMPACOTAMENTO LOCAL.</code></pre>
       <table><thead><tr><th>Mensagem</th><th>O que fazer</th></tr></thead><tbody>
         <tr><td><code>[OK]</code></td><td>Não precisa mexer; aquela checagem passou.</td></tr>
@@ -695,21 +663,25 @@ CORREÇÃO: coloque os dados de negócio dentro de payload.dados</code></pre>
 
       <h3>Comando recomendado para gerar pacote</h3>
       <p><b>No terminal, a partir da raiz do pacote:</b></p>
-      <pre><code>mkdir -p dist
+      <pre><code>CONECTOR=conector-&lt;seu-servico&gt;
+VERSAO=1.0.0
+mkdir -p "conectores/$CONECTOR/dist"
 ./validar-conector && tar \
+  --exclude="./conectores/$CONECTOR/dist" \
   --exclude='./dist' \
   --exclude='.git' \
+  --exclude='./token-sisc' \
+  --exclude='./siscconectores/token-sisc' \
   --exclude='*.log' \
   --exclude='.env' \
-  --exclude='./token-externo/*.txt' \
-  -czf dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz .</code></pre>
+  -czf "conectores/$CONECTOR/dist/$CONECTOR-$VERSAO.tar.gz" .</code></pre>
       <p>O nome do arquivo deve ajudar quem recebe: inclua o nome do conector e a versão. Exemplo: <code>conector-pagamentos-1.0.0.tar.gz</code>.</p>
 
       <h3>Formatos aceitos</h3>
       <p><b>Use um destes formatos:</b></p>
-      <pre><code>dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
-dist/conector-&lt;seu-servico&gt;-1.0.0.tgz
-dist/conector-&lt;seu-servico&gt;-1.0.0.zip</code></pre>
+      <pre><code>conectores/conector-&lt;seu-servico&gt;/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
+conectores/conector-&lt;seu-servico&gt;/dist/conector-&lt;seu-servico&gt;-1.0.0.tgz
+conectores/conector-&lt;seu-servico&gt;/dist/conector-&lt;seu-servico&gt;-1.0.0.zip</code></pre>
       <table><thead><tr><th>Formato</th><th>Quando usar</th></tr></thead><tbody>
         <tr><td><code>.tar.gz</code></td><td>Preferencial em Linux. Preserva bem permissões de executável.</td></tr>
         <tr><td><code>.tgz</code></td><td>Mesma ideia do <code>.tar.gz</code>, só com nome menor.</td></tr>
@@ -720,13 +692,13 @@ dist/conector-&lt;seu-servico&gt;-1.0.0.zip</code></pre>
       <p><b>Confira item por item:</b></p>
       <pre><code>[ ] status aprovado no validador
 [ ] pacote contém um único conector
-[ ] manifesto, formato, catálogo, handler, manual, exemplos e teste estão presentes
+[ ] manifesto, formato, catálogo, handler, manual e teste estão presentes
 [ ] handler está executável
 [ ] não existe senha, token, certificado privado ou arquivo .env real
 [ ] arquivos de exemplo usam placeholders seguros
 [ ] README/manual explicam objetivo, payload, saída, erros e credenciais
 [ ] testeSandbox está declarado com permitido=true, semEfeitoReal=true e descrição clara
-[ ] testes/mensagem-exemplo.json não causa cobrança, envio real ou alteração irreversível
+[ ] conectores/conector-&lt;seu-servico&gt;/testes/mensagem-exemplo.json não causa cobrança, envio real ou alteração irreversível
 [ ] versão do manifesto bate com o nome do pacote
 [ ] pacote abre em uma pasta temporária sem erro</code></pre>
 
@@ -734,7 +706,7 @@ dist/conector-&lt;seu-servico&gt;-1.0.0.zip</code></pre>
       <p><b>Antes de enviar, abra em uma pasta temporária:</b></p>
       <pre><code>mkdir -p /tmp/teste-conector
 cd /tmp/teste-conector
-tar -xzf /caminho/para/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
+tar -xzf /caminho/para/conectores/conector-&lt;seu-servico&gt;/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
 ./validar-conector</code></pre>
       <p>Esse teste evita o clássico problema: “na minha pasta funcionava, mas o arquivo enviado ficou incompleto”.</p>
 
@@ -744,7 +716,7 @@ tar -xzf /caminho/para/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
       <p><b>Na página, informe:</b></p>
       <pre><code>nome do conector: conector-&lt;seu-servico&gt;
 versão: 1.0.0
-arquivo: dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
+arquivo: conectores/conector-&lt;seu-servico&gt;/dist/conector-&lt;seu-servico&gt;-1.0.0.tar.gz
 resumo: o que o conector faz em uma frase
 operações: lista curta das ações suportadas
 observações: dependências, sandbox, limitações e contato do mantenedor</code></pre>
@@ -765,7 +737,7 @@ lista de alterações desde a versão anterior</code></pre>
 
 
     <article id="ExClimaManifesto" class="doc">
-      <span class="path">conectores/conector-clima/conector-clima.json</span><h2>Clima / previsão do tempo: manifesto</h2>
+      <span class="path">siscconectores/conector-clima/manifesto</span><h2>Clima / previsão do tempo: manifesto</h2>
       <p class="muted">Este arquivo identifica o conector de exemplo e mostra quais nomes você deve adaptar se construir uma integração parecida.</p>
       <h3>Como ficaria</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -776,33 +748,17 @@ lista de alterações desde a versão anterior</code></pre>
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-clima/handlers/conector-clima"
   },
-  "formatoConector": "conectores/conector-clima/formatos/formato-conector-clima.json",
-  "testeSandbox": {"permitido": true, "semEfeitoReal": true, "mensagem": "testes/mensagem-exemplo.json", "descricao": "Consulta demonstrativa sem alterar dados externos."},
-  "dependencias": {
-    "fonteSeguraImportacao": true,
-    "arquivos": [
-      {"papel":"manifesto","origem":"conectores/conector-clima/conector-clima.json","destino":"conectores/conector-clima/conector-clima.json","obrigatorio":true},
-      {"papel":"formato","origem":"conectores/conector-clima/formatos/formato-conector-clima.json","destino":"conectores/conector-clima/formatos/formato-conector-clima.json","obrigatorio":true},
-      {"papel":"handler","origem":"conectores/conector-clima/handlers/conector-clima","destino":"conectores/conector-clima/handlers/conector-clima","obrigatorio":true},
-      {"papel":"catalogo-mensagens","origem":"web-api/catalogo-conector-clima.json","destino":"web-api/catalogo-conector-clima.json","obrigatorio":true},
-      {"papel":"manual-usuario","origem":"conectores/conector-clima/manual-conector-clima.html","destino":"conectores/conector-clima/manual-conector-clima.html","obrigatorio":true},
-      {"papel":"exemplo-uso","origem":"conectores/conector-clima/exemplos/exemplo-uso.php","destino":"conectores/conector-clima/exemplos/exemplo-uso.php","obrigatorio":true},
-      {"papel":"exemplo-consumidor","origem":"conectores/conector-clima/exemplos/exemplo-cliente.php","destino":"conectores/conector-clima/exemplos/exemplo-cliente.php","obrigatorio":true}
-    ]
-  },
-  "manualUsuario": "conectores/conector-clima/manual-conector-clima.html"
+  "formatoConector": "conectores/conector-clima/formatos/formato-conector-clima.json"
 }</code></pre>
       <div class="callout"><b>O que adaptar:</b> troque nome, título, descrição, caminho do handler e caminho do formato para o seu serviço real.</div>
     </article>
 
     <article id="ExClimaFormato" class="doc">
-      <span class="path">conectores/conector-clima/formatos/formato-conector-clima.json</span><h2>Clima / previsão do tempo: formato do payload</h2>
+      <span class="path">siscconectores/conector-clima/formato</span><h2>Clima / previsão do tempo: formato do payload</h2>
       <p class="muted">Aqui ficam os campos que o consumidor deve enviar para esta integração funcionar.</p>
       <h3>Campos do exemplo</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -827,7 +783,7 @@ lista de alterações desde a versão anterior</code></pre>
     </article>
 
     <article id="ExClimaHandler" class="doc">
-      <span class="path">conectores/conector-clima/handlers/conector-clima</span><h2>Clima / previsão do tempo: handler</h2>
+      <span class="path">siscconectores/conector-clima/handler</span><h2>Clima / previsão do tempo: handler</h2>
       <p class="muted">O handler traduz o comando padronizado para a API ou mecanismo externo.</p>
       <h3>Lógica recomendada</h3><p><b>No arquivo real, a lógica seria:</b></p>
       <pre><code>ler arquivo JSON recebido
@@ -868,7 +824,7 @@ if ($cidade === &#x27;&#x27;) falhar(&#x27;cidade obrigatoria&#x27;);
 if (!preg_match(&#x27;/^\d{4}-\d{2}-\d{2}$/&#x27;, $data)) falhar(&#x27;data deve estar em AAAA-MM-DD&#x27;);
 if (!in_array($unidade, [&#x27;celsius&#x27;, &#x27;fahrenheit&#x27;], true)) falhar(&#x27;unidade invalida&#x27;);
 
-$config = json_decode(file_get_contents(&#x27;secretos/conector-clima.json&#x27;) ?: &#x27;{}&#x27;, true);
+$config = json_decode(file_get_contents(&#x27;siscconectores/secretos/conector-clima.json&#x27;) ?: &#x27;{}&#x27;, true);
 $endpoint = rtrim((string)($config[&#x27;servico&#x27;][&#x27;endpoint&#x27;] ?? &#x27;&#x27;), &#x27;/&#x27;);
 $apiKey = (string)($config[&#x27;servico&#x27;][&#x27;apiKey&#x27;] ?? &#x27;&#x27;);
 if ($endpoint === &#x27;&#x27; || $apiKey === &#x27;&#x27; || str_contains($apiKey, &#x27;preencher&#x27;)) falhar(&#x27;configuracao de clima incompleta&#x27;, 78);
@@ -890,7 +846,7 @@ responder([
     </article>
 
     <article id="ExClimaManual" class="doc">
-      <span class="path">conectores/conector-clima/manual-conector-clima.html</span><h2>Clima / previsão do tempo: manual do conector</h2>
+      <span class="path">siscconectores/conector-clima/manual</span><h2>Clima / previsão do tempo: manual do conector</h2>
       <p class="muted">O manual ensina outro programador a consumir este conector sem abrir o código.</p>
       <h3>Estrutura mínima</h3><p><b>No HTML real, inclua:</b></p>
       <pre><code>&lt;h1&gt;Manual do conector-clima&lt;/h1&gt;
@@ -904,7 +860,7 @@ responder([
     </article>
 
     <article id="ExClimaCatalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-clima.json</span><h2>Clima / previsão do tempo: catálogo</h2>
+      <span class="path">siscconectores/conector-clima/catálogo</span><h2>Clima / previsão do tempo: catálogo</h2>
       <p class="muted">O catálogo declara a mensagem pública que aciona o conector.</p>
       <h3>Mensagem pública</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -926,7 +882,7 @@ responder([
     </article>
 
     <article id="ExClimaTeste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span><h2>Clima / previsão do tempo: mensagem de teste</h2>
+      <span class="path">conectores/conector-clima/testes/mensagem-exemplo.json</span><h2>Clima / previsão do tempo: mensagem de teste</h2>
       <p class="muted">A mensagem de teste permite rodar o handler localmente sem dados reais perigosos.</p>
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -954,7 +910,7 @@ responder([
     </article>
 
     <article id="ExClimaSegredos" class="doc">
-      <span class="path">secretos/conector-clima.sample.json</span><h2>Clima / previsão do tempo: segredos de exemplo</h2>
+      <span class="path">siscconectores/conector-clima/segredos.sample</span><h2>Clima / previsão do tempo: segredos de exemplo</h2>
       <p class="muted">Este arquivo é só um molde. O valor real será preenchido apenas no ambiente de instalação.</p>
       <h3>Sample seguro</h3><p><b>No arquivo de exemplo, use placeholders:</b></p>
       <pre><code>{
@@ -971,7 +927,7 @@ responder([
 
 
     <article id="ExCrmManifesto" class="doc">
-      <span class="path">conectores/conector-crm-leads/conector-crm-leads.json</span><h2>CRM / leads comerciais: manifesto</h2>
+      <span class="path">siscconectores/conector-crm-leads/manifesto</span><h2>CRM / leads comerciais: manifesto</h2>
       <p class="muted">Este arquivo identifica o conector de exemplo e mostra quais nomes você deve adaptar se construir uma integração parecida.</p>
       <h3>Como ficaria</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -982,33 +938,17 @@ responder([
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-crm-leads/handlers/conector-crm-leads"
   },
-  "formatoConector": "conectores/conector-crm-leads/formatos/formato-conector-crm-leads.json",
-  "testeSandbox": {"permitido": true, "semEfeitoReal": true, "mensagem": "testes/mensagem-exemplo.json", "descricao": "Consulta/criacao simulada sem gravar lead real."},
-  "dependencias": {
-    "fonteSeguraImportacao": true,
-    "arquivos": [
-      {"papel":"manifesto","origem":"conectores/conector-crm-leads/conector-crm-leads.json","destino":"conectores/conector-crm-leads/conector-crm-leads.json","obrigatorio":true},
-      {"papel":"formato","origem":"conectores/conector-crm-leads/formatos/formato-conector-crm-leads.json","destino":"conectores/conector-crm-leads/formatos/formato-conector-crm-leads.json","obrigatorio":true},
-      {"papel":"handler","origem":"conectores/conector-crm-leads/handlers/conector-crm-leads","destino":"conectores/conector-crm-leads/handlers/conector-crm-leads","obrigatorio":true},
-      {"papel":"catalogo-mensagens","origem":"web-api/catalogo-conector-crm-leads.json","destino":"web-api/catalogo-conector-crm-leads.json","obrigatorio":true},
-      {"papel":"manual-usuario","origem":"conectores/conector-crm-leads/manual-conector-crm-leads.html","destino":"conectores/conector-crm-leads/manual-conector-crm-leads.html","obrigatorio":true},
-      {"papel":"exemplo-uso","origem":"conectores/conector-crm-leads/exemplos/exemplo-uso.php","destino":"conectores/conector-crm-leads/exemplos/exemplo-uso.php","obrigatorio":true},
-      {"papel":"exemplo-consumidor","origem":"conectores/conector-crm-leads/exemplos/exemplo-cliente.php","destino":"conectores/conector-crm-leads/exemplos/exemplo-cliente.php","obrigatorio":true}
-    ]
-  },
-  "manualUsuario": "conectores/conector-crm-leads/manual-conector-crm-leads.html"
+  "formatoConector": "conectores/conector-crm-leads/formatos/formato-conector-crm-leads.json"
 }</code></pre>
       <div class="callout"><b>O que adaptar:</b> troque nome, título, descrição, caminho do handler e caminho do formato para o seu serviço real.</div>
     </article>
 
     <article id="ExCrmFormato" class="doc">
-      <span class="path">conectores/conector-crm-leads/formatos/formato-conector-crm-leads.json</span><h2>CRM / leads comerciais: formato do payload</h2>
+      <span class="path">siscconectores/conector-crm-leads/formato</span><h2>CRM / leads comerciais: formato do payload</h2>
       <p class="muted">Aqui ficam os campos que o consumidor deve enviar para esta integração funcionar.</p>
       <h3>Campos do exemplo</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1034,7 +974,7 @@ responder([
     </article>
 
     <article id="ExCrmHandler" class="doc">
-      <span class="path">conectores/conector-crm-leads/handlers/conector-crm-leads</span><h2>CRM / leads comerciais: handler</h2>
+      <span class="path">siscconectores/conector-crm-leads/handler</span><h2>CRM / leads comerciais: handler</h2>
       <p class="muted">O handler traduz o comando padronizado para a API ou mecanismo externo.</p>
       <h3>Lógica recomendada</h3><p><b>No arquivo real, a lógica seria:</b></p>
       <pre><code>ler arquivo JSON recebido
@@ -1083,7 +1023,7 @@ if (!in_array($acao, [&#x27;criar_lead&#x27;, &#x27;consultar_lead&#x27;], true)
 if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) falhar(&#x27;email invalido&#x27;);
 if ($acao === &#x27;criar_lead&#x27; &amp;&amp; $nome === &#x27;&#x27;) falhar(&#x27;nome obrigatorio para criar lead&#x27;);
 
-$config = json_decode(file_get_contents(&#x27;secretos/conector-crm-leads.json&#x27;) ?: &#x27;{}&#x27;, true);
+$config = json_decode(file_get_contents(&#x27;siscconectores/secretos/conector-crm-leads.json&#x27;) ?: &#x27;{}&#x27;, true);
 $endpoint = rtrim((string)($config[&#x27;servico&#x27;][&#x27;endpoint&#x27;] ?? &#x27;&#x27;), &#x27;/&#x27;);
 $token = (string)($config[&#x27;servico&#x27;][&#x27;token&#x27;] ?? &#x27;&#x27;);
 if ($endpoint === &#x27;&#x27; || $token === &#x27;&#x27; || str_contains($token, &#x27;preencher&#x27;)) falhar(&#x27;configuracao de CRM incompleta&#x27;, 78);
@@ -1104,7 +1044,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExCrmManual" class="doc">
-      <span class="path">conectores/conector-crm-leads/manual-conector-crm-leads.html</span><h2>CRM / leads comerciais: manual do conector</h2>
+      <span class="path">siscconectores/conector-crm-leads/manual</span><h2>CRM / leads comerciais: manual do conector</h2>
       <p class="muted">O manual ensina outro programador a consumir este conector sem abrir o código.</p>
       <h3>Estrutura mínima</h3><p><b>No HTML real, inclua:</b></p>
       <pre><code>&lt;h1&gt;Manual do conector-crm-leads&lt;/h1&gt;
@@ -1118,7 +1058,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExCrmCatalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-crm-leads.json</span><h2>CRM / leads comerciais: catálogo</h2>
+      <span class="path">siscconectores/conector-crm-leads/catálogo</span><h2>CRM / leads comerciais: catálogo</h2>
       <p class="muted">O catálogo declara a mensagem pública que aciona o conector.</p>
       <h3>Mensagem pública</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1140,7 +1080,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExCrmTeste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span><h2>CRM / leads comerciais: mensagem de teste</h2>
+      <span class="path">conectores/conector-crm-leads/testes/mensagem-exemplo.json</span><h2>CRM / leads comerciais: mensagem de teste</h2>
       <p class="muted">A mensagem de teste permite rodar o handler localmente sem dados reais perigosos.</p>
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1169,7 +1109,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExCrmSegredos" class="doc">
-      <span class="path">secretos/conector-crm-leads.sample.json</span><h2>CRM / leads comerciais: segredos de exemplo</h2>
+      <span class="path">siscconectores/conector-crm-leads/segredos.sample</span><h2>CRM / leads comerciais: segredos de exemplo</h2>
       <p class="muted">Este arquivo é só um molde. O valor real será preenchido apenas no ambiente de instalação.</p>
       <h3>Sample seguro</h3><p><b>No arquivo de exemplo, use placeholders:</b></p>
       <pre><code>{
@@ -1186,7 +1126,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
 
 
     <article id="ExPagamentosManifesto" class="doc">
-      <span class="path">conectores/conector-pagamentos/conector-pagamentos.json</span><h2>Pagamentos / cobrança: manifesto</h2>
+      <span class="path">siscconectores/conector-pagamentos/manifesto</span><h2>Pagamentos / cobrança: manifesto</h2>
       <p class="muted">Este arquivo identifica o conector de exemplo e mostra quais nomes você deve adaptar se construir uma integração parecida.</p>
       <h3>Como ficaria</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1197,33 +1137,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-pagamentos/handlers/conector-pagamentos"
   },
-  "formatoConector": "conectores/conector-pagamentos/formatos/formato-conector-pagamentos.json",
-  "testeSandbox": {"permitido": true, "semEfeitoReal": true, "mensagem": "testes/mensagem-exemplo.json", "descricao": "Cobranca demonstrativa sem transacao real."},
-  "dependencias": {
-    "fonteSeguraImportacao": true,
-    "arquivos": [
-      {"papel":"manifesto","origem":"conectores/conector-pagamentos/conector-pagamentos.json","destino":"conectores/conector-pagamentos/conector-pagamentos.json","obrigatorio":true},
-      {"papel":"formato","origem":"conectores/conector-pagamentos/formatos/formato-conector-pagamentos.json","destino":"conectores/conector-pagamentos/formatos/formato-conector-pagamentos.json","obrigatorio":true},
-      {"papel":"handler","origem":"conectores/conector-pagamentos/handlers/conector-pagamentos","destino":"conectores/conector-pagamentos/handlers/conector-pagamentos","obrigatorio":true},
-      {"papel":"catalogo-mensagens","origem":"web-api/catalogo-conector-pagamentos.json","destino":"web-api/catalogo-conector-pagamentos.json","obrigatorio":true},
-      {"papel":"manual-usuario","origem":"conectores/conector-pagamentos/manual-conector-pagamentos.html","destino":"conectores/conector-pagamentos/manual-conector-pagamentos.html","obrigatorio":true},
-      {"papel":"exemplo-uso","origem":"conectores/conector-pagamentos/exemplos/exemplo-uso.php","destino":"conectores/conector-pagamentos/exemplos/exemplo-uso.php","obrigatorio":true},
-      {"papel":"exemplo-consumidor","origem":"conectores/conector-pagamentos/exemplos/exemplo-cliente.php","destino":"conectores/conector-pagamentos/exemplos/exemplo-cliente.php","obrigatorio":true}
-    ]
-  },
-  "manualUsuario": "conectores/conector-pagamentos/manual-conector-pagamentos.html"
+  "formatoConector": "conectores/conector-pagamentos/formatos/formato-conector-pagamentos.json"
 }</code></pre>
       <div class="callout"><b>O que adaptar:</b> troque nome, título, descrição, caminho do handler e caminho do formato para o seu serviço real.</div>
     </article>
 
     <article id="ExPagamentosFormato" class="doc">
-      <span class="path">conectores/conector-pagamentos/formatos/formato-conector-pagamentos.json</span><h2>Pagamentos / cobrança: formato do payload</h2>
+      <span class="path">siscconectores/conector-pagamentos/formato</span><h2>Pagamentos / cobrança: formato do payload</h2>
       <p class="muted">Aqui ficam os campos que o consumidor deve enviar para esta integração funcionar.</p>
       <h3>Campos do exemplo</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1249,7 +1173,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExPagamentosHandler" class="doc">
-      <span class="path">conectores/conector-pagamentos/handlers/conector-pagamentos</span><h2>Pagamentos / cobrança: handler</h2>
+      <span class="path">siscconectores/conector-pagamentos/handler</span><h2>Pagamentos / cobrança: handler</h2>
       <p class="muted">O handler traduz o comando padronizado para a API ou mecanismo externo.</p>
       <h3>Lógica recomendada</h3><p><b>No arquivo real, a lógica seria:</b></p>
       <pre><code>ler arquivo JSON recebido
@@ -1291,7 +1215,7 @@ $referencia = trim((string)($dados[&#x27;referenciaPedido&#x27;] ?? &#x27;&#x27;
 if (!in_array($acao, [&#x27;criar_cobranca&#x27;, &#x27;consultar_cobranca&#x27;, &#x27;cancelar_cobranca&#x27;], true)) falhar(&#x27;acao invalida&#x27;);
 if ($referencia === &#x27;&#x27;) falhar(&#x27;referenciaPedido obrigatoria&#x27;);
 
-$config = json_decode(file_get_contents(&#x27;secretos/conector-pagamentos.json&#x27;) ?: &#x27;{}&#x27;, true);
+$config = json_decode(file_get_contents(&#x27;siscconectores/secretos/conector-pagamentos.json&#x27;) ?: &#x27;{}&#x27;, true);
 $endpoint = rtrim((string)($config[&#x27;servico&#x27;][&#x27;endpoint&#x27;] ?? &#x27;&#x27;), &#x27;/&#x27;);
 $clientId = (string)($config[&#x27;servico&#x27;][&#x27;clientId&#x27;] ?? &#x27;&#x27;);
 $clientSecret = (string)($config[&#x27;servico&#x27;][&#x27;clientSecret&#x27;] ?? &#x27;&#x27;);
@@ -1319,7 +1243,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExPagamentosManual" class="doc">
-      <span class="path">conectores/conector-pagamentos/manual-conector-pagamentos.html</span><h2>Pagamentos / cobrança: manual do conector</h2>
+      <span class="path">siscconectores/conector-pagamentos/manual</span><h2>Pagamentos / cobrança: manual do conector</h2>
       <p class="muted">O manual ensina outro programador a consumir este conector sem abrir o código.</p>
       <h3>Estrutura mínima</h3><p><b>No HTML real, inclua:</b></p>
       <pre><code>&lt;h1&gt;Manual do conector-pagamentos&lt;/h1&gt;
@@ -1333,7 +1257,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExPagamentosCatalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-pagamentos.json</span><h2>Pagamentos / cobrança: catálogo</h2>
+      <span class="path">siscconectores/conector-pagamentos/catálogo</span><h2>Pagamentos / cobrança: catálogo</h2>
       <p class="muted">O catálogo declara a mensagem pública que aciona o conector.</p>
       <h3>Mensagem pública</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1355,7 +1279,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExPagamentosTeste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span><h2>Pagamentos / cobrança: mensagem de teste</h2>
+      <span class="path">conectores/conector-pagamentos/testes/mensagem-exemplo.json</span><h2>Pagamentos / cobrança: mensagem de teste</h2>
       <p class="muted">A mensagem de teste permite rodar o handler localmente sem dados reais perigosos.</p>
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1384,7 +1308,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExPagamentosSegredos" class="doc">
-      <span class="path">secretos/conector-pagamentos.sample.json</span><h2>Pagamentos / cobrança: segredos de exemplo</h2>
+      <span class="path">siscconectores/conector-pagamentos/segredos.sample</span><h2>Pagamentos / cobrança: segredos de exemplo</h2>
       <p class="muted">Este arquivo é só um molde. O valor real será preenchido apenas no ambiente de instalação.</p>
       <h3>Sample seguro</h3><p><b>No arquivo de exemplo, use placeholders:</b></p>
       <pre><code>{
@@ -1402,7 +1326,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
 
 
     <article id="ExEstoqueManifesto" class="doc">
-      <span class="path">conectores/conector-estoque/conector-estoque.json</span><h2>Estoque / ERP: manifesto</h2>
+      <span class="path">siscconectores/conector-estoque/manifesto</span><h2>Estoque / ERP: manifesto</h2>
       <p class="muted">Este arquivo identifica o conector de exemplo e mostra quais nomes você deve adaptar se construir uma integração parecida.</p>
       <h3>Como ficaria</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1413,33 +1337,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-estoque/handlers/conector-estoque"
   },
-  "formatoConector": "conectores/conector-estoque/formatos/formato-conector-estoque.json",
-  "testeSandbox": {"permitido": true, "semEfeitoReal": true, "mensagem": "testes/mensagem-exemplo.json", "descricao": "Consulta/ajuste demonstrativo sem alterar estoque real."},
-  "dependencias": {
-    "fonteSeguraImportacao": true,
-    "arquivos": [
-      {"papel":"manifesto","origem":"conectores/conector-estoque/conector-estoque.json","destino":"conectores/conector-estoque/conector-estoque.json","obrigatorio":true},
-      {"papel":"formato","origem":"conectores/conector-estoque/formatos/formato-conector-estoque.json","destino":"conectores/conector-estoque/formatos/formato-conector-estoque.json","obrigatorio":true},
-      {"papel":"handler","origem":"conectores/conector-estoque/handlers/conector-estoque","destino":"conectores/conector-estoque/handlers/conector-estoque","obrigatorio":true},
-      {"papel":"catalogo-mensagens","origem":"web-api/catalogo-conector-estoque.json","destino":"web-api/catalogo-conector-estoque.json","obrigatorio":true},
-      {"papel":"manual-usuario","origem":"conectores/conector-estoque/manual-conector-estoque.html","destino":"conectores/conector-estoque/manual-conector-estoque.html","obrigatorio":true},
-      {"papel":"exemplo-uso","origem":"conectores/conector-estoque/exemplos/exemplo-uso.php","destino":"conectores/conector-estoque/exemplos/exemplo-uso.php","obrigatorio":true},
-      {"papel":"exemplo-consumidor","origem":"conectores/conector-estoque/exemplos/exemplo-cliente.php","destino":"conectores/conector-estoque/exemplos/exemplo-cliente.php","obrigatorio":true}
-    ]
-  },
-  "manualUsuario": "conectores/conector-estoque/manual-conector-estoque.html"
+  "formatoConector": "conectores/conector-estoque/formatos/formato-conector-estoque.json"
 }</code></pre>
       <div class="callout"><b>O que adaptar:</b> troque nome, título, descrição, caminho do handler e caminho do formato para o seu serviço real.</div>
     </article>
 
     <article id="ExEstoqueFormato" class="doc">
-      <span class="path">conectores/conector-estoque/formatos/formato-conector-estoque.json</span><h2>Estoque / ERP: formato do payload</h2>
+      <span class="path">siscconectores/conector-estoque/formato</span><h2>Estoque / ERP: formato do payload</h2>
       <p class="muted">Aqui ficam os campos que o consumidor deve enviar para esta integração funcionar.</p>
       <h3>Campos do exemplo</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1465,7 +1373,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExEstoqueHandler" class="doc">
-      <span class="path">conectores/conector-estoque/handlers/conector-estoque</span><h2>Estoque / ERP: handler</h2>
+      <span class="path">siscconectores/conector-estoque/handler</span><h2>Estoque / ERP: handler</h2>
       <p class="muted">O handler traduz o comando padronizado para a API ou mecanismo externo.</p>
       <h3>Lógica recomendada</h3><p><b>No arquivo real, a lógica seria:</b></p>
       <pre><code>ler arquivo JSON recebido
@@ -1511,7 +1419,7 @@ if ($acao === &#x27;ajustar_saldo&#x27;) {
     $body[&#x27;motivo&#x27;] = $motivo;
 }
 
-$config = json_decode(file_get_contents(&#x27;secretos/conector-estoque.json&#x27;) ?: &#x27;{}&#x27;, true);
+$config = json_decode(file_get_contents(&#x27;siscconectores/secretos/conector-estoque.json&#x27;) ?: &#x27;{}&#x27;, true);
 $endpoint = rtrim((string)($config[&#x27;servico&#x27;][&#x27;endpoint&#x27;] ?? &#x27;&#x27;), &#x27;/&#x27;);
 $token = (string)($config[&#x27;servico&#x27;][&#x27;token&#x27;] ?? &#x27;&#x27;);
 if ($endpoint === &#x27;&#x27; || $token === &#x27;&#x27;) falhar(&#x27;configuracao de estoque incompleta&#x27;, 78);
@@ -1533,7 +1441,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExEstoqueManual" class="doc">
-      <span class="path">conectores/conector-estoque/manual-conector-estoque.html</span><h2>Estoque / ERP: manual do conector</h2>
+      <span class="path">siscconectores/conector-estoque/manual</span><h2>Estoque / ERP: manual do conector</h2>
       <p class="muted">O manual ensina outro programador a consumir este conector sem abrir o código.</p>
       <h3>Estrutura mínima</h3><p><b>No HTML real, inclua:</b></p>
       <pre><code>&lt;h1&gt;Manual do conector-estoque&lt;/h1&gt;
@@ -1547,7 +1455,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExEstoqueCatalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-estoque.json</span><h2>Estoque / ERP: catálogo</h2>
+      <span class="path">siscconectores/conector-estoque/catálogo</span><h2>Estoque / ERP: catálogo</h2>
       <p class="muted">O catálogo declara a mensagem pública que aciona o conector.</p>
       <h3>Mensagem pública</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1569,7 +1477,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExEstoqueTeste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span><h2>Estoque / ERP: mensagem de teste</h2>
+      <span class="path">conectores/conector-estoque/testes/mensagem-exemplo.json</span><h2>Estoque / ERP: mensagem de teste</h2>
       <p class="muted">A mensagem de teste permite rodar o handler localmente sem dados reais perigosos.</p>
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1598,7 +1506,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExEstoqueSegredos" class="doc">
-      <span class="path">secretos/conector-estoque.sample.json</span><h2>Estoque / ERP: segredos de exemplo</h2>
+      <span class="path">siscconectores/conector-estoque/segredos.sample</span><h2>Estoque / ERP: segredos de exemplo</h2>
       <p class="muted">Este arquivo é só um molde. O valor real será preenchido apenas no ambiente de instalação.</p>
       <h3>Sample seguro</h3><p><b>No arquivo de exemplo, use placeholders:</b></p>
       <pre><code>{
@@ -1615,7 +1523,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
 
 
     <article id="ExOcrManifesto" class="doc">
-      <span class="path">conectores/conector-documentos-ocr/conector-documentos-ocr.json</span><h2>Documentos / OCR: manifesto</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/manifesto</span><h2>Documentos / OCR: manifesto</h2>
       <p class="muted">Este arquivo identifica o conector de exemplo e mostra quais nomes você deve adaptar se construir uma integração parecida.</p>
       <h3>Como ficaria</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1626,33 +1534,17 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
   "ativo": true,
   "tipo": "conector",
   "controlador": {
-    "executavel": "./escuta/runtime-conector",
     "metodoLeitura": "ler-mensagem",
-    "metodoEnvio": "POST api.php",
-    "regraEnvio": "somente-via-api-sem-publicacao-direta-no-espaco",
+    "metodoEnvio": "canal-oficial-de-publicacao",
     "handlerLerMensagem": "./conectores/conector-documentos-ocr/handlers/conector-documentos-ocr"
   },
-  "formatoConector": "conectores/conector-documentos-ocr/formatos/formato-conector-documentos-ocr.json",
-  "testeSandbox": {"permitido": true, "semEfeitoReal": true, "mensagem": "testes/mensagem-exemplo.json", "descricao": "OCR demonstrativo em arquivo seguro sem expor documento real."},
-  "dependencias": {
-    "fonteSeguraImportacao": true,
-    "arquivos": [
-      {"papel":"manifesto","origem":"conectores/conector-documentos-ocr/conector-documentos-ocr.json","destino":"conectores/conector-documentos-ocr/conector-documentos-ocr.json","obrigatorio":true},
-      {"papel":"formato","origem":"conectores/conector-documentos-ocr/formatos/formato-conector-documentos-ocr.json","destino":"conectores/conector-documentos-ocr/formatos/formato-conector-documentos-ocr.json","obrigatorio":true},
-      {"papel":"handler","origem":"conectores/conector-documentos-ocr/handlers/conector-documentos-ocr","destino":"conectores/conector-documentos-ocr/handlers/conector-documentos-ocr","obrigatorio":true},
-      {"papel":"catalogo-mensagens","origem":"web-api/catalogo-conector-documentos-ocr.json","destino":"web-api/catalogo-conector-documentos-ocr.json","obrigatorio":true},
-      {"papel":"manual-usuario","origem":"conectores/conector-documentos-ocr/manual-conector-documentos-ocr.html","destino":"conectores/conector-documentos-ocr/manual-conector-documentos-ocr.html","obrigatorio":true},
-      {"papel":"exemplo-uso","origem":"conectores/conector-documentos-ocr/exemplos/exemplo-uso.php","destino":"conectores/conector-documentos-ocr/exemplos/exemplo-uso.php","obrigatorio":true},
-      {"papel":"exemplo-consumidor","origem":"conectores/conector-documentos-ocr/exemplos/exemplo-cliente.php","destino":"conectores/conector-documentos-ocr/exemplos/exemplo-cliente.php","obrigatorio":true}
-    ]
-  },
-  "manualUsuario": "conectores/conector-documentos-ocr/manual-conector-documentos-ocr.html"
+  "formatoConector": "conectores/conector-documentos-ocr/formatos/formato-conector-documentos-ocr.json"
 }</code></pre>
       <div class="callout"><b>O que adaptar:</b> troque nome, título, descrição, caminho do handler e caminho do formato para o seu serviço real.</div>
     </article>
 
     <article id="ExOcrFormato" class="doc">
-      <span class="path">conectores/conector-documentos-ocr/formatos/formato-conector-documentos-ocr.json</span><h2>Documentos / OCR: formato do payload</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/formato</span><h2>Documentos / OCR: formato do payload</h2>
       <p class="muted">Aqui ficam os campos que o consumidor deve enviar para esta integração funcionar.</p>
       <h3>Campos do exemplo</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1678,7 +1570,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExOcrHandler" class="doc">
-      <span class="path">conectores/conector-documentos-ocr/handlers/conector-documentos-ocr</span><h2>Documentos / OCR: handler</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/handler</span><h2>Documentos / OCR: handler</h2>
       <p class="muted">O handler traduz o comando padronizado para a API ou mecanismo externo.</p>
       <h3>Lógica recomendada</h3><p><b>No arquivo real, a lógica seria:</b></p>
       <pre><code>ler arquivo JSON recebido
@@ -1719,7 +1611,7 @@ if (!is_file($arquivo) || !is_readable($arquivo)) falhar(&#x27;arquivo nao encon
 if (filesize($arquivo) &gt; 20 * 1024 * 1024) falhar(&#x27;arquivo maior que 20MB&#x27;);
 if (!in_array($tipoDocumento, [&#x27;contrato&#x27;, &#x27;nota&#x27;, &#x27;comprovante&#x27;, &#x27;generico&#x27;], true)) falhar(&#x27;tipoDocumento invalido&#x27;);
 
-$config = json_decode(file_get_contents(&#x27;secretos/conector-documentos-ocr.json&#x27;) ?: &#x27;{}&#x27;, true);
+$config = json_decode(file_get_contents(&#x27;siscconectores/secretos/conector-documentos-ocr.json&#x27;) ?: &#x27;{}&#x27;, true);
 $endpoint = rtrim((string)($config[&#x27;servico&#x27;][&#x27;endpoint&#x27;] ?? &#x27;&#x27;), &#x27;/&#x27;);
 $apiKey = (string)($config[&#x27;servico&#x27;][&#x27;apiKey&#x27;] ?? &#x27;&#x27;);
 if ($endpoint === &#x27;&#x27; || $apiKey === &#x27;&#x27;) falhar(&#x27;configuracao OCR incompleta&#x27;, 78);
@@ -1748,7 +1640,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExOcrManual" class="doc">
-      <span class="path">conectores/conector-documentos-ocr/manual-conector-documentos-ocr.html</span><h2>Documentos / OCR: manual do conector</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/manual</span><h2>Documentos / OCR: manual do conector</h2>
       <p class="muted">O manual ensina outro programador a consumir este conector sem abrir o código.</p>
       <h3>Estrutura mínima</h3><p><b>No HTML real, inclua:</b></p>
       <pre><code>&lt;h1&gt;Manual do conector-documentos-ocr&lt;/h1&gt;
@@ -1762,7 +1654,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExOcrCatalogo" class="doc">
-      <span class="path">web-api/catalogo-conector-documentos-ocr.json</span><h2>Documentos / OCR: catálogo</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/catálogo</span><h2>Documentos / OCR: catálogo</h2>
       <p class="muted">O catálogo declara a mensagem pública que aciona o conector.</p>
       <h3>Mensagem pública</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1784,7 +1676,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExOcrTeste" class="doc">
-      <span class="path">testes/mensagem-exemplo.json</span><h2>Documentos / OCR: mensagem de teste</h2>
+      <span class="path">conectores/conector-documentos-ocr/testes/mensagem-exemplo.json</span><h2>Documentos / OCR: mensagem de teste</h2>
       <p class="muted">A mensagem de teste permite rodar o handler localmente sem dados reais perigosos.</p>
       <h3>Payload de teste</h3><p><b>No arquivo real, este tópico apareceria assim:</b></p>
       <pre><code>{
@@ -1813,7 +1705,7 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
     </article>
 
     <article id="ExOcrSegredos" class="doc">
-      <span class="path">secretos/conector-documentos-ocr.sample.json</span><h2>Documentos / OCR: segredos de exemplo</h2>
+      <span class="path">siscconectores/conector-documentos-ocr/segredos.sample</span><h2>Documentos / OCR: segredos de exemplo</h2>
       <p class="muted">Este arquivo é só um molde. O valor real será preenchido apenas no ambiente de instalação.</p>
       <h3>Sample seguro</h3><p><b>No arquivo de exemplo, use placeholders:</b></p>
       <pre><code>{
@@ -1867,13 +1759,9 @@ responder([&#x27;sucesso&#x27; =&gt; true, &#x27;conector&#x27; =&gt; &#x27;cone
   if(exampleSelector)exampleSelector.addEventListener('change',()=>showExample(exampleSelector.value,true));
   const filter=document.getElementById('filter'); if(filter)filter.addEventListener('input',()=>{const q=filter.value.trim().toLowerCase();document.querySelectorAll('.tree:not(.hidden) .tree-row[data-name]').forEach(r=>r.classList.toggle('hidden',q&&!r.dataset.name.toLowerCase().includes(q)))});
   const preencher=['<seu-servico>','<Seu Serviço>','<executavel>','conector-clima','conector-crm-leads','conector-pagamentos','conector-estoque','conector-documentos-ocr','consultar_previsao','criar_lead','criar_cobranca','ajustar_saldo','extrair_texto','São Paulo','2026-08-25','Maria Cliente','maria@example.com','+5511999999999','landing-page','149.90','BRL','PED-987','2026-08-30','CAMISETA-AZUL-M','25','principal','inventario','uploads/seguros/doc-123.pdf','contrato','pt-BR','preencher-no-ambiente-real','https://api.clima.example.invalid','https://crm.example.invalid','https://pagamentos.example.invalid','https://erp.example.invalid','https://ocr.example.invalid'];
-  const automatico=['processoId','respostaA','idempotencia','correlacao','processo-teste-local-0001','sistema__operador','POST api.php','somente-via-api-sem-publicacao-direta-no-espaco','ler-mensagem','./escuta/runtime-conector'];
+  const automatico=['processoId','respostaA','idempotencia','correlacao','processo-teste-local-0001','sistema__operador','canal-oficial-de-publicacao','ler-mensagem'];
   const map=new Map(); automatico.forEach(v=>map.set(v,'auto-value')); preencher.forEach(v=>map.set(v,'fill-value')); const terms=Array.from(map.keys()).sort((a,b)=>b.length-a.length); const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); const re=new RegExp(terms.map(esc).join('|'),'g'); document.querySelectorAll('pre code').forEach(code=>{const w=document.createTreeWalker(code,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);ns.forEach(n=>{const text=n.nodeValue;if(!re.test(text)){re.lastIndex=0;return}re.lastIndex=0;const frag=document.createDocumentFragment();let last=0;text.replace(re,(m,off)=>{frag.appendChild(document.createTextNode(text.slice(last,off)));const span=document.createElement('span');span.className=map.get(m);span.textContent=m;frag.appendChild(span);last=off+m.length});frag.appendChild(document.createTextNode(text.slice(last)));n.parentNode.replaceChild(frag,n)})});
   const hash=location.hash.replace('#',''); if(hash&&document.getElementById(hash))activate(hash); else showTree('guia',false);
 </script>
-
-<!-- SISC-MANUAL-CONECTOR-GITHUB-KIT-V2 -->
-<div class="callout ok"><b>Nota de fluxo para programadores:</b> clone <code>git@github.com:jrcostarrear/gitprog.git</code> em qualquer diretório da sua máquina. Esse conteúdo baixado contém o necessário para produzir, validar e enviar conectores ao SISC; o pacote gerado deve passar no validador local e depois no funil do servidor, com sandbox ativo e selos válidos.</div>
-
 </body>
 </html>
